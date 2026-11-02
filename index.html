@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
+</head>
+<body>
+<title>Hlinka e-shop</title>
+<link rel="icon" href="img/mark.svg" type="image/svg+xml">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: obchod keramickej dielne – kobaltová glazúra a okrová ako pri modranskej majolike; Black Friday ako čierne pole so stekajúcou glazúrou. */
+:root{
+  --bg:#eceff3; --surface:#f7f8fa; --raised:#ffffff; --ink:#151827; --muted:#565d71; --line:#d3d8e1;
+  --cobalt:#2443a8; --cobalt-hover:#1c3690; --on-cobalt:#ffffff; --cobalt-soft:#dfe5f6;
+  --ochre:#b9790a; --ochre-soft:#f5e6c6; --star:#d0900f;
+  --good:#2b7a4b; --good-soft:#dcefe3; --bad:#b0342a; --bad-soft:#f7dfdc;
+  --bf:#0c0d13; --bf-ink:#f2f0ea; --bf-muted:#a7a9b8; --bf-ochre:#f0b440; --bf-cobalt:#3d63e0;
+  --shadow:0 18px 40px -24px rgba(21,24,39,.45);
+  --f-display:"Gloock", Georgia, "Times New Roman", serif;
+  --f-body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10121a; --surface:#161922; --raised:#1c202b; --ink:#e8eaf1; --muted:#9ca2b4; --line:#2b3041;
+    --cobalt:#7f98ff; --cobalt-hover:#9cb0ff; --on-cobalt:#0c1022; --cobalt-soft:#1e2647;
+    --ochre:#f0b440; --ochre-soft:#3a2e14; --star:#f0b440;
+    --good:#62c98f; --good-soft:#15301f; --bad:#ff8c7d; --bad-soft:#3b1a17;
+    --shadow:0 18px 40px -24px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10121a; --surface:#161922; --raised:#1c202b; --ink:#e8eaf1; --muted:#9ca2b4; --line:#2b3041;
+  --cobalt:#7f98ff; --cobalt-hover:#9cb0ff; --on-cobalt:#0c1022; --cobalt-soft:#1e2647;
+  --ochre:#f0b440; --ochre-soft:#3a2e14; --star:#f0b440;
+  --good:#62c98f; --good-soft:#15301f; --bad:#ff8c7d; --bad-soft:#3b1a17;
+  --shadow:0 18px 40px -24px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;transition:background .15s, transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--cobalt);color:var(--on-cobalt)}
+.btn-primary:hover{background:var(--cobalt-hover)}
+.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* top strip + header */
+.strip{background:var(--cobalt);color:var(--on-cobalt);font-size:13px;font-weight:500}
+.strip .wrap{display:flex;gap:24px;justify-content:center;padding-block:7px;flex-wrap:wrap;text-align:center}
+.strip b{font-weight:700}
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;gap:24px;padding-block:12px}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.logo{align-items:center;gap:10px}
+.logo-mark{width:40px;height:40px;color:var(--cobalt);--logo-bg:var(--surface);flex:none}
+.logo-txt{display:flex;flex-direction:column;line-height:1}
+.logo-txt b{font-family:var(--f-display);font-weight:400;font-size:30px;letter-spacing:-.01em}
+.logo-txt span{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+nav.main{display:flex;gap:4px;margin-left:auto}
+nav.main a{text-decoration:none;font-weight:500;font-size:15px;padding:8px 12px;border-radius:8px}
+nav.main a:hover{background:var(--bg)}
+nav.main a.bf{color:var(--ochre);font-weight:700}
+.cart-btn{position:relative;display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--raised);border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:600}
+.cart-btn:hover{border-color:var(--ink)}
+.cart-count{min-width:22px;height:22px;border-radius:11px;background:var(--cobalt);color:var(--on-cobalt);font-size:12px;display:inline-grid;place-items:center;padding:0 6px}
+.cart-btn.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.08)}}
+@media (max-width:860px){
+  nav.main{order:3;width:100%;margin:0;overflow-x:auto;scrollbar-width:none}
+  header.site .wrap{flex-wrap:wrap;gap:8px 16px}
+  .cart-btn{margin-left:auto}
+  .logo-txt span{display:none}
+}
+
+/* Black Friday banner */
+.bf{background:var(--bf);color:var(--bf-ink);position:relative;overflow:hidden}
+.bf-drip{position:absolute;inset:0 0 auto;width:100%;height:84px;display:block}
+.bf .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:32px;align-items:center;padding-block:112px 56px;position:relative}
+.bf .eyebrow{color:var(--bf-ochre)}
+.bf h1{font-size:clamp(42px,6.4vw,84px);letter-spacing:-.02em;margin:14px 0 18px}
+.bf h1 em{font-style:normal;color:var(--bf-ochre)}
+.bf p.lead{font-size:18px;color:var(--bf-muted);max-width:52ch}
+.bf p.lead b{color:var(--bf-ink)}
+.code-chip{display:inline-flex;align-items:center;gap:6px;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-weight:700;letter-spacing:.06em;background:transparent;border:1.5px dashed var(--bf-ochre);color:var(--bf-ochre);padding:2px 10px;border-radius:6px;cursor:pointer;font-size:15px}
+.bf-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.bf .btn-primary{background:var(--bf-ochre);color:#1a1205}
+.bf .btn-primary:hover{background:#ffc75c}
+.bf .btn-ghost{border-color:#3a3c4a;color:var(--bf-ink)}
+.bf .btn-ghost:hover{border-color:var(--bf-ink)}
+.countdown{display:flex;gap:10px;margin-top:30px;align-items:flex-end;flex-wrap:wrap}
+.cd-cell{min-width:68px;border:1px solid #2c2e3a;border-radius:10px;padding:8px 10px;text-align:center}
+.cd-cell b{display:block;font-family:var(--f-display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.cd-cell span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--bf-muted)}
+.cd-label{font-size:13px;color:var(--bf-muted);width:100%}
+.bf-art{position:relative;max-width:560px;justify-self:end;width:100%}
+.bf-art img{width:100%;height:auto;display:block}
+.bf-stamp{position:absolute;top:4%;right:4%;width:124px;height:124px;border-radius:50%;background:var(--bf-ochre);color:#1a1205;display:grid;place-items:center;text-align:center;transform:rotate(-12deg);line-height:1}
+.bf-stamp b{font-family:var(--f-display);font-weight:400;font-size:40px;display:block}
+.bf-stamp span{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:860px){.bf .wrap{grid-template-columns:1fr;padding-block:96px 40px}.bf-art{justify-self:center;max-width:420px}.bf-stamp{width:96px;height:96px}.bf-stamp b{font-size:30px}}
+
+/* trust */
+.trust{border-bottom:1px solid var(--line);background:var(--surface)}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-block:18px}
+.trust div{display:flex;gap:12px;align-items:center;font-size:14px}
+.trust svg{flex:none;width:28px;height:28px;color:var(--cobalt)}
+.trust b{display:block;font-size:15px}
+.trust small{color:var(--muted)}
+@media (max-width:860px){.trust .wrap{grid-template-columns:1fr 1fr}}
+@media (max-width:440px){.trust .wrap{grid-template-columns:1fr}}
+
+section.block{padding-block:72px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(32px,4vw,48px);margin-top:6px}
+.sec-head p{color:var(--muted);max-width:46ch}
+
+/* product grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 22px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+.card{display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-img{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:1/1;max-width:100%;background:var(--line)}
+.card-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .35s, transform .5s}
+.card-img img.alt{opacity:0}
+.card-img:hover img.alt,.card-img:focus-visible img.alt{opacity:1}
+.card-img:hover img{transform:scale(1.03)}
+.badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.badge{font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--bf);color:var(--bf-ink)}
+.badge.sale{background:var(--bf-ochre);color:#1a1205}
+.badge.soft{background:#ffffffe0;color:#151827}
+.card h3{font-size:24px}
+.card h3 a{text-decoration:none}
+.card h3 a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.card .tag{color:var(--muted);font-size:14px;margin-top:2px}
+.card-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto}
+.price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price b{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.price s{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.add-mini{border:0;width:44px;height:44px;border-radius:50%;background:var(--cobalt);color:var(--on-cobalt);cursor:pointer;display:grid;place-items:center;flex:none}
+.add-mini:hover{background:var(--cobalt-hover)}
+.rating{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.stars{position:relative;display:inline-block;font-size:15px;letter-spacing:2px;line-height:1;color:var(--line)}
+.stars::before{content:"★★★★★"}
+.stars i{position:absolute;inset:0 auto 0 0;overflow:hidden;white-space:nowrap;color:var(--star);font-style:normal;width:calc(var(--v) / 5 * 100%)}
+.stars i::before{content:"★★★★★"}
+
+/* process */
+.process{background:var(--surface);border-block:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:s}
+.step{border-top:2px solid var(--ink);padding-top:16px}
+.step .n{font-family:var(--f-display);font-size:44px;line-height:1;color:var(--cobalt)}
+.step h3{font-size:22px;margin:10px 0 8px}
+.step p{color:var(--muted);font-size:15px}
+.step .temp{display:inline-block;margin-top:10px;font-weight:700;font-size:13px;background:var(--ochre-soft);color:var(--ink);padding:3px 9px;border-radius:6px}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.steps{grid-template-columns:1fr}}
+
+/* reviews */
+.rv-summary{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:start}
+.rv-big{font-family:var(--f-display);font-size:72px;line-height:1}
+.rv-big small{font-family:var(--f-body);font-size:16px;color:var(--muted)}
+.rv-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rv{background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.rv-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.rv-who{font-weight:600}
+.rv-who small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.verified{font-size:12px;font-weight:600;color:var(--good);background:var(--good-soft);padding:2px 8px;border-radius:999px}
+.unverified{font-size:12px;font-weight:600;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:999px}
+.rv p{font-size:15px}
+.rv .prod-link{font-size:13px;color:var(--muted)}
+.reply{border-left:3px solid var(--cobalt);background:var(--cobalt-soft);padding:10px 12px;border-radius:0 8px 8px 0;font-size:14px}
+.reply b{display:block;font-size:13px;margin-bottom:2px}
+@media (max-width:900px){.rv-summary{grid-template-columns:1fr;gap:24px}.rv-cards{grid-template-columns:1fr}}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 2fr;gap:40px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 40px 18px 0;font-weight:600;font-size:17px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:6px;top:12px;font-size:26px;font-weight:400;color:var(--cobalt);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .ans{padding:0 0 20px;color:var(--muted);max-width:65ch}
+.faq .ans p+p{margin-top:8px}
+.faq-help{background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:22px;align-self:start}
+.faq-help h3{font-size:24px;margin-bottom:8px}
+.faq-help p{color:var(--muted);margin-bottom:16px}
+@media (max-width:860px){.faq{grid-template-columns:1fr}}
+
+/* product detail */
+.crumbs{font-size:14px;color:var(--muted);padding-block:22px}
+.crumbs a{text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.pd{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:start}
+.gmain{border-radius:var(--r);overflow:hidden;aspect-ratio:1/1;max-width:100%;background:var(--line);position:relative}
+.gmain img{width:100%;height:100%;object-fit:cover;display:block}
+.gcap{position:absolute;bottom:12px;left:12px;background:#ffffffe6;color:#151827;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px}
+.gthumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.gthumbs button{border:2px solid transparent;padding:0;border-radius:10px;overflow:hidden;cursor:pointer;aspect-ratio:1/1;background:var(--line)}
+.gthumbs button[aria-current="true"]{border-color:var(--cobalt)}
+.gthumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.pinfo{display:flex;flex-direction:column;gap:18px;position:sticky;top:96px}
+.pinfo h1{font-size:clamp(36px,4.4vw,54px)}
+.pinfo .tag{color:var(--muted)}
+.pprice{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.pprice b{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+.pprice s{color:var(--muted);font-size:18px}
+.pprice .save{font-size:13px;font-weight:700;background:var(--bf-ochre);color:#1a1205;padding:3px 9px;border-radius:999px}
+.bf-note{font-size:14px;background:var(--bf);color:var(--bf-muted);padding:10px 14px;border-radius:10px}
+.bf-note b{color:var(--bf-ochre)}
+.stock{font-size:14px;font-weight:600;color:var(--good);display:flex;align-items:center;gap:8px}
+.stock::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.stock.low{color:var(--ochre)}
+.buy{display:flex;gap:12px;align-items:stretch}
+.qty{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;background:var(--raised)}
+.qty button{border:0;background:none;width:40px;height:44px;cursor:pointer;font-size:20px}
+.qty input,.qty span{width:36px;text-align:center;border:0;background:none;font-weight:700;font-variant-numeric:tabular-nums}
+.buy .btn{flex:1}
+.perks{list-style:none;margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:grid;gap:8px;font-size:14px}
+.perks li{display:flex;gap:10px}
+.perks li::before{content:"";flex:none;width:6px;height:6px;margin-top:8px;border-radius:50%;background:var(--cobalt)}
+.params{width:100%;border-collapse:collapse;font-size:14px}
+.params th{text-align:left;font-weight:500;color:var(--muted);padding:8px 12px 8px 0;width:44%;border-bottom:1px solid var(--line);vertical-align:top}
+.params td{padding:8px 0;border-bottom:1px solid var(--line)}
+.pdesc{display:grid;grid-template-columns:1fr 2fr;gap:40px;padding-block:64px;border-bottom:1px solid var(--line)}
+.pdesc h2{font-size:34px}
+.pdesc .txt{display:grid;gap:14px;font-size:17px;max-width:65ch}
+.pdesc .txt p:first-child::first-letter{font-family:var(--f-display);float:left;font-size:58px;line-height:.9;padding:6px 8px 0 0;color:var(--cobalt)}
+@media (max-width:900px){.pd{grid-template-columns:1fr;gap:28px}.pinfo{position:static}.pdesc{grid-template-columns:1fr;gap:16px}}
+
+.prv{padding-block:64px;display:grid;grid-template-columns:300px 1fr;gap:48px}
+.dist{display:grid;gap:6px;margin:16px 0 24px}
+.dist-row{display:grid;grid-template-columns:28px 1fr 26px;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--star)}
+.rv-list{display:grid;gap:16px}
+.rv-form{background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:12px}
+.rv-form h3{font-size:22px}
+.star-pick{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:2px}
+.star-pick input{position:absolute;opacity:0;width:1px;height:1px}
+.star-pick label{font-size:28px;color:var(--line);cursor:pointer;line-height:1}
+.star-pick input:checked ~ label,.star-pick label:hover,.star-pick label:hover ~ label{color:var(--star)}
+.star-pick input:focus-visible + label{outline:2px solid var(--cobalt);border-radius:4px}
+@media (max-width:900px){.prv{grid-template-columns:1fr;gap:24px}}
+
+/* forms */
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-size:14px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;background:var(--raised);padding:11px 12px;font-size:16px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cobalt)}
+.field.err input,.field.err select{border-color:var(--bad)}
+.field .msg{font-size:13px;color:var(--bad);display:none}
+.field.err .msg{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+@media (max-width:520px){.row2,.row3{grid-template-columns:1fr}}
+
+/* cart drawer */
+.overlay{position:fixed;inset:0;background:rgba(10,12,20,.45);z-index:80;opacity:0;visibility:hidden;transition:opacity .2s, visibility .2s}
+.overlay.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--surface);z-index:90;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px);box-shadow:var(--shadow)}
+.drawer.open{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.drawer-head h2{font-size:28px}
+.x{border:0;background:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:24px;line-height:1}
+.x:hover{background:var(--bg)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 20px;display:grid;gap:14px;align-content:start}
+.free{background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px}
+.free .bar{margin-top:8px}
+.free .bar i{background:var(--cobalt)}
+.line{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center}
+.line .thumb{width:72px;height:72px;border-radius:8px;overflow:hidden}
+.line .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.line h4{margin:0;font-size:15px;font-weight:600}
+.line small{color:var(--muted)}
+.line .qty{margin-top:6px;width:max-content}
+.line .qty button{width:32px;height:32px;font-size:16px}
+.line .lp{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.rm{border:0;background:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;padding:4px 0}
+.drawer-foot{border-top:1px solid var(--line);padding:16px 20px;display:grid;gap:12px}
+.tot{display:flex;justify-content:space-between;font-size:15px;font-variant-numeric:tabular-nums}
+.tot.big{font-size:20px;font-weight:700}
+.tot .muted{color:var(--muted)}
+.empty{text-align:center;padding:40px 10px;color:var(--muted);display:grid;gap:14px;justify-items:center}
+
+/* checkout */
+.co{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start;padding-bottom:72px}
+.co h1{font-size:clamp(36px,4vw,52px);margin-bottom:8px}
+.co-sec{background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:14px;margin-top:20px}
+.co-sec h2{font-size:24px;display:flex;gap:12px;align-items:baseline}
+.co-sec h2 span{font-family:var(--f-body);font-size:13px;font-weight:700;color:var(--cobalt);border:1.5px solid var(--cobalt);border-radius:50%;width:26px;height:26px;display:inline-grid;place-items:center;flex:none}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:22px 1fr auto;gap:12px;align-items:center;border:1.5px solid var(--line);border-radius:10px;padding:14px;cursor:pointer;background:var(--surface)}
+.opt:has(input:checked){border-color:var(--cobalt);background:var(--cobalt-soft)}
+.opt:has(input:disabled){opacity:.5;cursor:not-allowed}
+.opt input{accent-color:var(--cobalt);width:18px;height:18px;margin:0}
+.opt b{display:block;font-size:15px}
+.opt small{color:var(--muted);font-size:13px}
+.opt .fee{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.paylogos{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pl{font-size:11px;font-weight:700;letter-spacing:.04em;border:1px solid var(--line);border-radius:4px;padding:2px 6px;background:var(--raised);color:var(--ink)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.check input{accent-color:var(--cobalt);width:18px;height:18px;margin-top:2px;flex:none}
+.check.err{color:var(--bad)}
+.summary{position:sticky;top:96px;background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:14px}
+.summary h2{font-size:26px}
+.sum-lines{display:grid;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sum-line{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;font-size:14px}
+.sum-line .thumb{width:56px;height:56px;border-radius:8px;overflow:hidden;position:relative}
+.sum-line .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.sum-line .q{position:absolute;top:-1px;right:-1px;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;border-radius:0 8px 0 8px;padding:1px 6px}
+.coupon{display:flex;gap:8px}
+.coupon input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 12px;text-transform:uppercase}
+.coupon .btn{padding:10px 16px}
+.coupon-msg{font-size:13px}
+.coupon-msg.ok{color:var(--good)}
+.coupon-msg.no{color:var(--bad)}
+.disc{color:var(--good)}
+@media (max-width:900px){.co{grid-template-columns:1fr}.summary{position:static}}
+
+/* confirmation */
+.done{max-width:760px;margin:0 auto;padding-block:48px 80px;display:grid;gap:22px}
+.done-head{display:grid;gap:10px}
+.done-head .ok{width:56px;height:56px;border-radius:50%;background:var(--good-soft);color:var(--good);display:grid;place-items:center}
+.done h1{font-size:clamp(36px,5vw,56px)}
+.box{background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:10px}
+.box h2{font-size:22px}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:6px 16px;font-size:15px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+@media (max-width:520px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
+
+/* VOP */
+.vop{display:grid;grid-template-columns:240px 1fr;gap:48px;padding-bottom:80px}
+.vop nav{position:sticky;top:96px;align-self:start;display:grid;gap:4px;font-size:14px}
+.vop nav a{text-decoration:none;color:var(--muted);padding:4px 0}
+.vop nav a:hover{color:var(--ink)}
+.vop article{max-width:72ch;display:grid;gap:12px}
+.vop h1{font-size:clamp(34px,4vw,50px);margin-bottom:6px}
+.vop h2{font-size:26px;margin-top:28px;scroll-margin-top:110px}
+.vop ol{padding-left:22px;margin:0;display:grid;gap:8px}
+.vop .meta{color:var(--muted);font-size:14px}
+@media (max-width:860px){.vop{grid-template-columns:1fr}.vop nav{position:static}}
+
+/* footer */
+footer.site{background:var(--bf);color:var(--bf-muted);margin-top:0}
+footer.site .wrap{padding-block:56px 28px}
+.f-grid{display:grid;grid-template-columns:1.3fr 1fr 1.3fr 1.2fr;gap:32px}
+.f-grid h3{font-family:var(--f-body);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--bf-ink);margin-bottom:14px}
+.f-grid a{text-decoration:none;color:var(--bf-muted)}
+.f-grid a:hover{color:var(--bf-ink);text-decoration:underline}
+.f-grid ul{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:15px}
+.f-stamp{width:120px;height:120px;display:block;margin-bottom:14px;opacity:.92}
+.f-brand p{font-size:15px;max-width:34ch}
+address{font-style:normal;font-size:14px;display:grid;gap:4px}
+address strong{color:var(--bf-ink)}
+.f-bottom{border-top:1px solid #262835;margin-top:40px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px}
+.f-pay{display:flex;gap:6px;flex-wrap:wrap}
+.f-pay span{border:1px solid #333646;border-radius:4px;padding:2px 7px;font-weight:700;font-size:11px;color:var(--bf-ink)}
+@media (max-width:900px){.f-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.f-grid{grid-template-columns:1fr}}
+
+/* brand / about */
+.about{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center}
+.about figure{margin:0;border-radius:var(--r);overflow:hidden;position:relative}
+.about figure img{width:100%;height:auto;display:block;aspect-ratio:1152/720;object-fit:cover}
+.about figcaption{position:absolute;left:12px;bottom:12px;background:#ffffffe6;color:#151827;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px}
+.about-txt{display:grid;gap:14px;font-size:17px}
+.about-txt h2{font-size:clamp(32px,4vw,48px)}
+.about-txt p{color:var(--muted)}
+.about-sign{display:flex;gap:16px;align-items:center;margin-top:6px}
+.about-sign svg{width:64px;height:64px;color:var(--cobalt);--logo-bg:var(--bg);flex:none}
+.about-sign b{font-family:var(--f-display);font-weight:400;font-size:22px;display:block}
+.about-sign small{color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+.facts div{border-top:2px solid var(--ink);padding-top:10px}
+.facts b{font-family:var(--f-display);font-weight:400;font-size:30px;display:block;line-height:1.1}
+.facts small{color:var(--muted);font-size:13px}
+@media (max-width:900px){.about{grid-template-columns:1fr;gap:28px}}
+/* product story */
+.intro{font-size:19px;line-height:1.5}
+.maker{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+.maker svg{width:28px;height:28px;color:var(--cobalt);--logo-bg:var(--bg)}
+.hi{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-block:8px 56px;border-bottom:1px solid var(--line)}
+.hi div{background:var(--raised);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:6px;align-content:start}
+.hi b{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.15}
+.hi p{color:var(--muted);font-size:14.5px}
+.info3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:48px;border-bottom:1px solid var(--line)}
+.info3 h3{font-size:24px;margin-bottom:10px}
+.info3 p,.info3 li{color:var(--muted);font-size:15px}
+.info3 ul{margin:0;padding-left:18px;display:grid;gap:6px}
+@media (max-width:900px){.hi{grid-template-columns:1fr 1fr}.info3{grid-template-columns:1fr;gap:24px}}
+@media (max-width:480px){.hi{grid-template-columns:1fr}}
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 14px 12px 18px;border-radius:12px;display:flex;gap:14px;align-items:center;z-index:95;opacity:0;visibility:hidden;transition:all .25s;font-size:14px;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.toast button{border:0;background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* pay modal */
+.modal{position:fixed;inset:0;z-index:120;background:rgba(10,12,20,.6);display:grid;place-items:center;padding:16px}
+.modal-card{background:var(--raised);border-radius:16px;padding:28px;max-width:420px;width:100%;display:grid;gap:14px;text-align:center;box-shadow:var(--shadow)}
+.modal-card h2{font-size:28px}
+.modal-card p{color:var(--muted);font-size:15px}
+.modal-card .amt{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+.spin{width:40px;height:40px;border:4px solid var(--line);border-top-color:var(--cobalt);border-radius:50%;margin:6px auto;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* chat */
+.chat-fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;align-items:center;gap:10px;border:0;border-radius:999px;background:var(--cobalt);color:var(--on-cobalt);padding:12px 18px 12px 14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow)}
+.chat-fab:hover{background:var(--cobalt-hover)}
+.chat-fab .dot{width:9px;height:9px;border-radius:50%;background:#5ee08f;box-shadow:0 0 0 3px rgba(94,224,143,.25)}
+.chat{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100% - 36px));height:min(560px,calc(100% - 120px));z-index:75;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.chat-head{display:flex;gap:12px;align-items:center;padding:14px 14px 14px 16px;background:var(--cobalt);color:var(--on-cobalt)}
+.chat-head .av{width:38px;height:38px;border-radius:50%;background:var(--on-cobalt);color:var(--cobalt);display:grid;place-items:center;font-family:var(--f-display);font-size:20px;flex:none}
+.chat-head b{display:block}
+.chat-head small{opacity:.85}
+.chat-head .x{margin-left:auto;color:var(--on-cobalt)}
+.chat-head .x:hover{background:rgba(255,255,255,.15)}
+.chat-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:86%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.45}
+.msg.bot{background:var(--raised);border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.me{background:var(--cobalt);color:var(--on-cobalt);border-bottom-right-radius:4px;align-self:flex-end}
+.msg a{color:inherit;font-weight:700}
+.typing{display:flex;gap:4px;padding:14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,60%,100%{opacity:.3}30%{opacity:1}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px}
+.chips button{border:1.5px solid var(--line);background:var(--raised);border-radius:999px;padding:6px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.chips button:hover{border-color:var(--cobalt);color:var(--cobalt)}
+.chat-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.chat-in input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:999px;padding:10px 14px;background:var(--raised);font-size:15px}
+.chat-in input:focus{outline:none;border-color:var(--cobalt)}
+.chat-in button{border:0;background:var(--cobalt);color:var(--on-cobalt);border-radius:50%;width:42px;height:42px;cursor:pointer;flex:none;display:grid;place-items:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="hl-mark" viewBox="0 0 120 120"><defs><clipPath id="hl-vc"><path d="M31,31 H89 C91.2,31 92.6,32.8 92.3,35 L87.6,86 C86.9,93.4 81.4,98 74.6,98 H45.4 C38.6,98 33.1,93.4 32.4,86 L27.7,35 C27.4,32.8 28.8,31 31,31 Z"/></clipPath></defs>
+<path d="M31,31 H89 C91.2,31 92.6,32.8 92.3,35 L87.6,86 C86.9,93.4 81.4,98 74.6,98 H45.4 C38.6,98 33.1,93.4 32.4,86 L27.7,35 C27.4,32.8 28.8,31 31,31 Z" fill="none" stroke="currentColor" stroke-width="3.6"/>
+<path d="M20,20 H100 V62 C96,62 95,64 93.5,66 C92,68 90,66 88,64 C86,62 84,62 82,64 C80.5,66 80,79 77,79.5 C74,80 73.5,67 71,64 C69,61.5 66,62 63,64 C60,66 58,66 55,63.5 C52,61 49,62 47.5,65 C46,68 46,73 43.5,73.5 C41,74 40.5,66 38,63.5 C36,61 33,62 31,64 C29,66 27,64 20,63 Z" fill="currentColor" clip-path="url(#hl-vc)"/>
+<path d="M33,38.5 H87" stroke="var(--logo-bg,#fff)" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M18,108 H102" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M40,108 Q60,102 80,108" fill="none" stroke="currentColor" stroke-width="2" opacity="0"/>
+</symbol></svg>
+<div class="strip"><div class="wrap"><span><b>Black Friday:</b> do −30 % a kód BLACK10 na ďalších −10 %</span><span>Doprava zdarma od 60 €</span><span>Odosielame do 24 hodín</span></div></div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#domov" aria-label="Hlinka, keramická dielňa Modra, domov"><svg class="logo-mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#hl-mark"/></svg><span class="logo-txt"><b>Hlinka</b><span>keramická dielňa · Modra</span></span></a>
+    <nav class="main" aria-label="Hlavné menu">
+      <a href="#kolekcia">Kolekcia</a>
+      <a href="#black-friday" class="bf">Black Friday</a>
+      <a href="#o-nas">O dielni</a>
+      <a href="#recenzie">Recenzie</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <button class="cart-btn" id="cartBtn" data-act="open-cart" aria-label="Otvoriť košík">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      Košík <span class="cart-count num" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="view"></main>
+
+<footer class="site" id="kontakt">
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-brand">
+        <img class="f-stamp" src="img/stamp.png" alt="Pečiatka dielne Hlinka, Modra, od 2017" width="150" height="150" loading="lazy">
+        <p>Úžitková keramika točená a glazovaná ručne v malej dielni v Modre. Od roku 2017.</p>
+      </div>
+      <div>
+        <h3>Nakupovanie</h3>
+        <ul>
+          <li><a href="#kolekcia">Celá kolekcia</a></li>
+          <li><a href="#faq">Doprava a platba</a></li>
+          <li><a href="#vop">Všeobecné obchodné podmienky</a></li>
+          <li><a href="#vop" data-vop="vop-odstupenie">Vrátenie tovaru</a></li>
+          <li><a href="#vop" data-vop="vop-reklamacie">Reklamačný poriadok</a></li>
+          <li><a href="#vop" data-vop="vop-osobne-udaje">Ochrana osobných údajov</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Prevádzkovateľ</h3>
+        <address>
+          <strong>Hlinka s. r. o.</strong>
+          <span>Štúrova 47, 900 01 Modra, Slovensko</span>
+          <span>IČO: 53 812 406 · DIČ: 2121487365</span>
+          <span>IČ DPH: SK2121487365</span>
+          <span>Zapísaná v OR Mestského súdu Bratislava III, oddiel Sro, vložka č. 156782/B</span>
+        </address>
+      </div>
+      <div>
+        <h3>Kontakt</h3>
+        <address>
+          <span>E-mail: <strong>dielna@hlinka-modra.sk</strong></span>
+          <span>Telefón: <strong>+421 905 123 456</strong></span>
+          <span>Po – Pi 9:00 – 17:00</span>
+          <span style="margin-top:8px">Dielňa a osobný odber: Po – Pi 10:00 – 17:00, počas Black Friday aj So 10:00 – 14:00</span>
+          <span style="margin-top:8px">Dozorný orgán: Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, 827 99 Bratislava</span>
+        </address>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 Hlinka s. r. o. · Hlinka je fiktívny obchod vytvorený ako študijný projekt, objednávky sa nikam neodosielajú.</span>
+      <div class="f-pay" aria-label="Platobné metódy"><span>VISA</span><span>Mastercard</span><span>Apple Pay</span><span>Google Pay</span><span>Prevod</span><span>Dobierka</span></div>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay" data-act="close-cart"></div>
+<aside class="drawer" id="drawer" aria-label="Košík" aria-hidden="true">
+  <div class="drawer-head"><h2>Košík</h2><button class="x" data-act="close-cart" aria-label="Zavrieť košík">×</button></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastText"></span><button data-act="open-cart">Zobraziť košík</button></div>
+
+<div class="modal" id="payModal" hidden><div class="modal-card" id="payCard"></div></div>
+
+<button class="chat-fab" id="chatFab" data-act="toggle-chat" aria-expanded="false" aria-controls="chat"><span class="dot"></span>Napíšte nám</button>
+<section class="chat" id="chat" hidden aria-label="Chat so zákazníckou podporou">
+  <div class="chat-head"><div class="av">H</div><div><b>Hlinka asistent</b><small>Zvyčajne odpovedá okamžite</small></div><button class="x" data-act="toggle-chat" aria-label="Zavrieť chat">×</button></div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <div class="chips" id="chatChips"></div>
+  <form class="chat-in" id="chatForm"><label class="sr" for="chatInput">Vaša správa</label><input id="chatInput" autocomplete="off" placeholder="Napíšte otázku…"><button aria-label="Odoslať"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+</section>
+
+<script>
+/* ---------- data ---------- */
+const PRODUCTS = [
+{ id:'hrnek-ranna-rosa', type:'mug', name:'Hrnček Ranná rosa', tagline:'350 ml · kobaltová glazúra so škvrnkami',
+  price:24.90, sale:18.90, badges:['Bestseller'], stock:'Skladom, odosielame do 24 h',
+  c:{glaze:'#2c4fb5',dark:'#1a3079',light:'#7393e3',clay:'#c8a07a',speck:'#eef2ff'}, bg:['#e8ecf3','#c5cedd'], wall:'#dfe4ec',
+  params:[['Objem','350 ml'],['Výška × priemer','10 × 8,5 cm'],['Hmotnosť','380 g'],['Materiál','kamenina, výpal 1 240 °C'],['Umývačka / mikrovlnka','áno / áno'],['Výroba','ručne točené v Modre']],
+  steam:[[-22,-238],[26,-244]],
+  reviews:[
+   {n:'Zuzana K.',city:'Trnava',r:5,d:'2026-10-14',v:true,t:'Kúpila som dva na skúšku a už objednávam ďalšie. Glazúra je naživo ešte krajšia ako na fotkách, každý hrnček má škvrnky trochu inde.'},
+   {n:'Marek H.',city:'Bratislava',r:4,d:'2026-10-02',v:true,t:'Krásny a pevný hrnček. Hviezdičku dole dávam za ucho, pre moje veľké prsty je tesné. Dva prsty sa zmestia, tretí už nie.'},
+   {n:'Ivana P.',city:'Pezinok',r:5,d:'2026-09-21',v:true,t:'Darček pre mamu. Balenie bolo nádherné, s ručne písanou kartičkou, a prišlo za dva dni.'},
+   {n:'Tomáš R.',city:'Nitra',r:2,d:'2026-08-30',v:true,t:'Hrnček sa mi páči, ale prišiel s malou prasklinou na dne. Reklamácia prebehla bez problémov a nový prišiel do týždňa, no darček na meniny som už nestihol.',
+    reply:'Tomáš, mrzí nás to, najmä pre tie meniny. Praskliny vznikajú výnimočne pri chladnutí v peci a túto sme pri kontrole prehliadli. Odvtedy každý hrnček pred balením ešte poklepeme, prasknutý kus zaznie inak.'},
+   {n:'Lenka D.',city:'Senec',r:5,d:'2026-07-11',v:true,t:'Drží teplo dlhšie ako moje porcelánové hrnčeky. Po pol roku v umývačke vyzerá ako nový.'}]},
+{ id:'cajnik-lipa', type:'teapot', name:'Čajník Lipa', tagline:'0,9 l · medová glazúra · sitko v tele',
+  price:69.00, sale:51.90, badges:['Novinka'], stock:'Skladom, odosielame do 24 h',
+  c:{glaze:'#c98418',dark:'#87500b',light:'#f2bf55',clay:'#b98b62',speck:'#fde6ad'}, bg:['#f1e8dc','#d8c5ab'], wall:'#ece3d6',
+  params:[['Objem','0,9 l (3 – 4 šálky)'],['Výška × šírka','16 × 24 cm'],['Hmotnosť','1,2 kg prázdny'],['Sitko','integrované v tele'],['Umývačka / mikrovlnka','áno / nie'],['Výroba','ručne točené v Modre']],
+  steam:[[-214,-198]],
+  reviews:[
+   {n:'Peter S.',city:'Žilina',r:5,d:'2026-10-20',v:true,t:'Čajník naozaj leje bez kvapkania, čo sa o väčšine čajníkov povedať nedá. Sitko je súčasťou tela, sypaný čaj nie je problém.'},
+   {n:'Andrea M.',city:'Bratislava',r:5,d:'2026-10-08',v:true,t:'Medová glazúra pri sviečke krásne svieti. Na zimné večery ideálny.'},
+   {n:'Jana V.',city:'Banská Bystrica',r:3,d:'2026-09-27',v:true,t:'Pekný, ale ťažší, než som čakala. Plný má cez dve kilá, pre moju staršiu mamu nevhodný. Kvalita je inak výborná.'},
+   {n:'Michal B.',city:'Košice',r:4,d:'2026-09-03',v:false,t:'Funguje skvele, len pokrievka trochu klepe, keď nalievam do poslednej šálky. Treba ju pridržať.'}]},
+{ id:'misky-hniezdo', type:'bowls', name:'Misky Hniezdo', tagline:'sada 2 ks · 550 ml · ovsená glazúra s modrým okrajom',
+  price:34.00, sale:25.50, badges:[], stock:'Skladom, odosielame do 24 h',
+  c:{glaze:'#d8ccb4',dark:'#a6967b',light:'#efe7d6',clay:'#b48a66',speck:'#6d5a44',rim:'#2a4cb0',inside:'#e7ddc9'}, bg:['#ebe7e0','#cdc5b7'], wall:'#e9e5de',
+  params:[['Objem','2 × 550 ml'],['Priemer × výška','15 × 7 cm'],['Hmotnosť','420 g / ks'],['Materiál','kamenina, výpal 1 240 °C'],['Umývačka / mikrovlnka','áno / áno'],['V balení','2 misky']],
+  reviews:[
+   {n:'Katarína L.',city:'Trenčín',r:5,d:'2026-10-18',v:true,t:'Ideálna veľkosť na raňajkovú kašu aj na polievku. Modrý okraj je ručne ťahaný, je to vidieť a práve to sa mi páči.'},
+   {n:'Róbert N.',city:'Bratislava',r:4,d:'2026-10-01',v:true,t:'Pekné, solídne misky. Do mikrovlnky v pohode, len okraj sa zahreje viac ako stred.'},
+   {n:'Simona T.',city:'Prešov',r:2,d:'2025-12-19',v:true,t:'Kuriér nechal balík pri bráne v daždi a jedna miska bola rozbitá. Obchod mi ju vymenil, ale zážitok z doručenia nič moc.',
+    reply:'Simona, ďakujeme za trpezlivosť. Kuriér nemal balík nechávať bez prevzatia, situáciu sme s ním riešili. Odvtedy balíme misky do dvojitej kartónovej vložky.'},
+   {n:'Eva G.',city:'Modra',r:5,d:'2025-11-05',v:true,t:'Mám ich už tretí rok a používame ich denne. Ani jedno odštiepenie.'},
+   {n:'Daniel F.',city:'Martin',r:4,d:'2025-10-12',v:true,t:'Krásne. Farba je naživo trochu teplejšia a béžovejšia než na mojom monitore.'}]},
+{ id:'vaza-trstina', type:'vase', name:'Váza Trstina', tagline:'32 cm · celadonová zelená · úzke hrdlo',
+  price:58.00, sale:43.50, badges:['Posledné kusy'], stock:'Posledné 4 kusy', low:true,
+  c:{glaze:'#7fa38e',dark:'#4b6c5a',light:'#b9d4c3',clay:'#b08a6a',speck:'#e6f0ea'}, bg:['#e3eae5','#c1cec6'], wall:'#e2e8e3',
+  params:[['Výška','32 cm'],['Priemer hrdla','3 cm'],['Najširšie miesto','14 cm'],['Hmotnosť','1,1 kg'],['Drží vodu','áno, glazovaná aj zvnútra'],['Umývačka','nie, umývajte ručne']],
+  reviews:[
+   {n:'Monika Č.',city:'Bratislava',r:5,d:'2026-10-22',v:true,t:'S pár suchými trstinami vyzerá ako zo škandinávskeho časopisu. Zelená je jemná, nie kričiaca.'},
+   {n:'Juraj K.',city:'Piešťany',r:3,d:'2026-09-15',v:true,t:'Krásny tvar, ale hrdlo je úzke a väčšiu kyticu ruží do nej nedáte. Je skôr na pár vetvičiek, čo mi z popisu nebolo celkom jasné.',
+    reply:'Juraj, ďakujeme, máte pravdu. Priemer hrdla sme doplnili do popisu aj do parametrov. Ak by ste chceli vázu vymeniť, v rámci 30 dní to nie je problém.'},
+   {n:'Barbora S.',city:'Nové Zámky',r:5,d:'2026-08-28',v:true,t:'Vodu drží bez problémov. Kupujem druhú pre sestru.'},
+   {n:'Lucia H.',city:'Bratislava',r:4,d:'2026-08-02',v:true,t:'Čakala som ju o niečo vyššiu, ale rozmery v popise sedia, chyba bola na mojej strane. Inak nádhera.'}]},
+{ id:'taniere-kruh', type:'plates', name:'Taniere Kruh', tagline:'sada 4 ks · Ø 27 cm · biela s kobaltovým kruhom',
+  price:79.00, sale:59.00, badges:[], stock:'Skladom, odosielame do 24 h',
+  c:{glaze:'#f0eee8',dark:'#c6c0b5',light:'#fbfaf7',clay:'#bf9a78',speck:'#8b8478',rim:'#2443a8'}, bg:['#dfe5ef','#b6c1d4'], wall:'#e5e9f0',
+  params:[['Priemer','27 cm'],['Výška','2,5 cm'],['Hmotnosť','720 g / ks'],['Materiál','kamenina, výpal 1 240 °C'],['Umývačka / mikrovlnka','áno / áno'],['V balení','4 taniere, každý zabalený zvlášť']],
+  reviews:[
+   {n:'Martina O.',city:'Bratislava',r:5,d:'2026-10-25',v:true,t:'Konečne taniere, na ktorých jedlo vyzerá ako v reštaurácii. Kobaltový kruh je na každom trochu iný.'},
+   {n:'Pavol J.',city:'Zvolen',r:4,d:'2026-10-03',v:true,t:'Kvalita super, cena za sadu primeraná. Do našej starej umývačky sa vojdú len našikmo, majú 27 cm.'},
+   {n:'Veronika Z.',city:'Trnava',r:2,d:'2026-09-09',v:true,t:'Po pár mesiacoch sú na glazúre sivé čiarky od príborov. Vraj sa dajú vyčistiť práškom, zatiaľ som neskúšala.',
+    reply:'Veronika, ide o stopy kovu z príborov, nie o poškodenie glazúry. Jemný čistiaci prášok ich odstráni. Ak by nezmizli, napíšte nám a taniere vymeníme.'},
+   {n:'Ondrej M.',city:'Skalica',r:5,d:'2026-06-14',v:true,t:'Kúpili sme dve sady kamarátom na svadbu. Každý tanier bol zabalený zvlášť v papieri, nič sa nerozbilo.'}]},
+{ id:'espresso-maly-cierny', type:'espresso', name:'Espresso set Malý čierny', tagline:'2 šálky 80 ml + 2 podšálky · matná čierna',
+  price:39.00, sale:27.30, badges:['Najväčšia zľava'], stock:'Skladom, odosielame do 24 h',
+  c:{glaze:'#232327',dark:'#0f0f12',light:'#4a4a52',clay:'#bd9a7c',speck:'#5d5d66'}, bg:['#ebe4d8','#c9baa3'], wall:'#ebe5db',
+  params:[['Objem šálky','80 ml'],['Hrúbka steny','6 mm'],['Priemer podšálky','13 cm'],['Hmotnosť','380 g / šálka s podšálkou'],['Umývačka / mikrovlnka','áno / áno'],['V balení','2 šálky + 2 podšálky']],
+  steam:[[-85,-112],[100,-90]],
+  reviews:[
+   {n:'Filip T.',city:'Bratislava',r:5,d:'2026-10-27',v:true,t:'Matná čierna s hrubými stenami, espresso v nich ostane horúce. Podšálky majú jamku, šálka nekĺže.'},
+   {n:'Nikola R.',city:'Komárno',r:5,d:'2025-12-01',v:true,t:'Kúpila som ich priateľovi, ktorý je barista, a odvtedy pije len z nich. Black Friday cena bola výborná.'},
+   {n:'Adam V.',city:'Poprad',r:3,d:'2026-08-19',v:true,t:'Pekné, ale 80 ml je na moje dvojité espresso tesne. Na jednoduché ideálne.'},
+   {n:'Silvia K.',city:'Bratislava',r:4,d:'2026-07-23',v:false,t:'Matný povrch chce trochu viac starostlivosti, zaschnutá káva na ňom nechá stopu. Inak nádhera.'}]}
+];
+const byId = Object.fromEntries(PRODUCTS.map(p=>[p.id,p]));
+const COPY = {
+'hrnek-ranna-rosa':{
+ intro:'Hrnček, po ktorý siahnete každé ráno ako prvý. Ťažší, teplý v dlani a s glazúrou, ktorá pripomína nočnú oblohu nad Malými Karpatmi.',
+ story:['Ranná rosa je prvý tvar, ktorý sme v dielni v Modre kedy vytočili, a dodnes ho točíme najčastejšie. Vznikol z jednoduchej túžby mať hrnček, ktorý sa dobre drží aj vtedy, keď ešte poriadne neotvoríte oči. Má preto mierne vypuklé telo, ktoré sa prirodzene vkĺzne do dlane, a o pár milimetrov hrubšie dno. Stojí pevne na stole a káva v ňom chladne citeľne pomalšie než v tenkom porceláne.',
+  'Kobaltová glazúra je naše vlastné miešanie. Pridávame do nej drobné zrnká rutilu, ktoré sa pri druhom výpale pri 1 240 °C roztopia a vystúpia na povrch ako biele škvrnky, akoby na hrnček padla ranná rosa. Odtiaľ meno. Ich rozmiestnenie neovplyvníme ani my, takže dva rovnaké kusy neexistujú.',
+  'Hrnček glazujeme ručným namáčaním. Glazúra sa pri výpale roztečie a pri dne vytvorí nepravidelný okraj so stekancami, pod ktorým ostáva holá kamenina. Na dotyk je zamatovo drsná a pripomína, že hrnček vznikol z hliny, nie na výrobnej linke.',
+  'Ucho ťaháme z jedného kusu hliny priamo na hrnčeku, nie z formy. Pohodlne sa doň zmestia dva prsty, čo stačí na istý úchop plného hrnčeka. V zime ho však pokojne chyťte celou dlaňou. Aj na to je navrhnutý.'],
+ hi:[['Udrží teplo','Hrubšie dno a 5 mm steny: káva ostane teplá o niekoľko minút dlhšie než v porceláne.'],['Každý kus je originál','Biele rutilové škvrnky vznikajú v peci náhodne, dva rovnaké hrnčeky neexistujú.'],['Do umývačky aj mikrovlnky','Kamenina vypálená pri 1 240 °C nesaje vodu a zvládne každodenné umývanie.'],['Akurát objem','350 ml je na veľké cappuccino, hrnček čaju alebo kakao s penou.']],
+ use:'Ranná káva, cappuccino, čaj, kakao aj polievka do hrnčeka. Ako darček pre každého, kto si ráno potrebuje dopriať chvíľu len pre seba.',
+ care:['Umývačka aj mikrovlnka sú v poriadku.','Nedávajte do rúry ani na sporák.','Usadeniny z čaju odstráni sóda bikarbóna a mäkká hubka.','Neglazované dno používajte na sklenenom stole s podložkou.'],
+ box:'1 hrnček zabalený v recyklovanom papieri, v krabičke s pečiatkou dielne. K darčeku pridáme ručne písanú kartičku zadarmo.',
+ maker:'Točí a glazuje Natália'},
+'cajnik-lipa':{
+ intro:'Čajník, ktorý pri nalievaní nekvapká. Znie to samozrejme, no hľadali sme to cez tridsať prototypov.',
+ story:['Lipa vznikla jedného zimného večera, keď sme už po tretí raz utierali obrus po nalievaní z kúpeného čajníka. Povedali sme si, že vytočíme vlastný. Nakoniec z toho bolo tridsaťdva prototypov a pol roka ladenia, kým sme našli uhol hubičky a ostrú hranu na jej konci, pri ktorej sa prúd čaju čisto odtrhne a nesteká po stene.',
+  'Telo je guľaté a nízke, aby sa v ňom čajové lístky voľne rozvinuli. V prednej stene sú ručne vyvŕtané otvory, ktoré slúžia ako sitko. Sypaný čaj tak zalejete priamo, bez ďalšieho sitka, a lístky ostanú vnútri aj pri poslednej šálke.',
+  'Medová glazúra je priesvitná. Na hranách a vypuklinách sa zlieva do tmavšieho jantáru, v priehlbinách svieti zlatisto. Pri sviečke pôsobí ako pohár lipového medu, podľa ktorého sme čajník pomenovali. Lipy mimochodom rastú aj pred našou dielňou na Štúrovej ulici.',
+  'Kamenina má hrubé steny a čaj v nej vydrží teplý aj 40 minút. Plný čajník váži približne 2,1 kg, takže sa hodí skôr na stôl než na nosenie po byte. Pokrievka má zarážku, ale pri nalievaní do poslednej šálky ju odporúčame pridržať.'],
+ hi:[['Nekvapká','Hubička s ostrou hranou odtrhne prúd čaju čisto, obrus ostane suchý.'],['Sitko v tele','Ručne vyvŕtané otvory zadržia sypaný čaj, nič ďalšie nepotrebujete.'],['Teplý 40 minút','Hrubá kamenina drží teplotu dlhšie ako sklo či tenký porcelán.'],['Na 3 až 4 šálky','0,9 litra stačí na večer vo dvojici alebo na malú návštevu.']],
+ use:'Sypané aj vrecúškové čaje, bylinkové zápary, zimný čaj s pomarančom a klinčekmi. Výborný darček na kolaudáciu.',
+ care:['Do umývačky áno, do mikrovlnky nie.','Hubičku a sitko prečistite kefkou na fľaše.','Tmavé usadeniny odstráni sóda bikarbóna v teplej vode.','Nestavajte na platničku ani nad plameň.'],
+ box:'Čajník s pokrievkou, oba diely zabalené samostatne, v krabici s dvojitou kartónovou vložkou.',
+ maker:'Točí a glazuje Natália'},
+'misky-hniezdo':{
+ intro:'Dve hlboké misky na všetko, čo sa je lyžicou. Ovsená glazúra, kobaltový okraj a tvar, ktorý sa pohodlne drží v dlani.',
+ story:['Hniezdo je naša odpoveď na otázku, z čoho jesť, keď sa človeku nechce rozmýšľať. Ráno ovsená kaša s ovocím, na obed polievka, večer šalát alebo misa ramenu. Miska má 550 ml, široký okraj a hlboké dno, takže z nej nič nevyšplechne a pohodlne sa z nej je lyžicou aj paličkami.',
+  'Ovsená glazúra je matná a teplá. Pri výpale z hliny vystúpia drobné zrnká železa a na povrchu vytvoria hnedé bodky, presne ako v ovsených vločkách. Na dotyk je hladká, no nie sklenená, a miska sa v dlani nešmýka ani mokrá.',
+  'Okraj každej misky obťahujeme štetcom namočeným v kobalte priamo na točiacom sa kruhu. Robíme to jedným ťahom, preto línia nikdy nie je dokonale rovnaká. Niekde je hrubšia, inde sa jemne rozpije. Práve tento ťah ruky odlišuje ručne robenú keramiku od tovarovej.',
+  'Misky sme navrhli tak, aby sa dali stohovať a v kuchynskej linke zabrali čo najmenej miesta. V sade sú dve, pretože spolu sa jedáva lepšie.'],
+ hi:[['550 ml','Akurát na polievku, poriadnu porciu kaše alebo misu šalátu.'],['Ručne maľovaný okraj','Každá linka je ťahaná štetcom na kruhu, žiadne dve misky nie sú rovnaké.'],['Dajú sa stohovať','Zaberú málo miesta v linke aj v umývačke.'],['Matný povrch','Dobre sa drží v dlani a nešmýka sa.']],
+ use:'Raňajkové kaše, granola s jogurtom, polievky, ramen, šaláty, poke misy aj dezerty. Na stole aj ako servírovacie misky na oriešky či olivy.',
+ care:['Umývačka aj mikrovlnka sú v poriadku.','V mikrovlnke sa okraj zohreje viac než stred, berte misku za spodok.','Nedávajte do rúry.','Matnú glazúru občas umyte so štipkou sódy bikarbóny.'],
+ box:'2 misky, každá zabalená v papieri, v krabici s dvojitou kartónovou vložkou.',
+ maker:'Točí a okraje maľuje Natália'},
+'vaza-trstina':{
+ intro:'Štíhla váza pre tých, ktorí majú radšej pár stebiel než veľkú kyticu.',
+ story:['Trstina je inšpirovaná brehmi rybníkov pod Malými Karpatmi, kam chodievame na jeseň na prechádzky. Trstina tam stojí aj v zime, vysušená do zlatista, a stačí pár stebiel, aby doma pripomínala krajinu za oknom. Vázu sme navrhli presne pre ne.',
+  'Telo je oblé a pri dne ťažšie, aby vysoké stonky vázu neprevrhli. Smerom hore sa zužuje do hrdla s priemerom 3 cm. Netreba ju plniť veľkou kyticou, stačia tri suché trstiny, jedna vŕbová vetvička alebo pár stoniek eukalyptu.',
+  'Celadon patrí medzi najstaršie glazúry na svete, v Číne ho hrnčiari používajú viac než tisíc rokov. Je priesvitne zelený, na vypuklých miestach sa zosvetlí a v priehlbinách stmavne. Pri chladnutí v peci sa na ňom vytvorí jemná sieť vlasových trhliniek, craquelure. Nie je to chyba, ale znak, ktorý si hrnčiari celé stáročia cenili.',
+  'Váza je glazovaná aj zvnútra, takže bez problémov drží vodu aj pre čerstvé kvety. Na spodnej strane má plstenú podložku, ktorá nepoškriabe drevený nábytok. Suché trstiny z fotografií nie sú súčasťou balenia, ale radi vám poradíme, kde ich nájsť.'],
+ hi:[['Výška 32 cm','Vynikne na komode, parapete aj ako stredobod jedálenského stola.'],['Craquelure','Jemná sieť trhliniek v glazúre je typická pre celadon a na každej váze je iná.'],['Drží vodu','Glazovaná aj zvnútra, hodí sa aj na čerstvé kvety.'],['Plstená podložka','Nepoškriabe drevo ani sklo.']],
+ use:'Suché trávy a trstina, vŕbové prútiky, eukalyptus, jedna ruža alebo tulipán, jarné vetvičky. Aj samostatne ako dekorácia.',
+ care:['Umývajte ručne, nie v umývačke.','Úzke hrdlo vyčistí kefka na fľaše alebo trochu ryže s vodou.','Vodu pri čerstvých kvetoch meňte každé dva dni.','Trhlinky sú v glazúre zatavené, váza nepresakuje.'],
+ box:'1 váza v krabici s dvojitou kartónovou vložkou, plstená podložka je už nalepená na dne. Bez trstín.',
+ maker:'Točí a glazuje Natália'},
+'taniere-kruh':{
+ intro:'Plytké taniere, na ktorých aj obyčajná večera vyzerá ako z bistra. Biela glazúra, jeden kobaltový ťah štetcom a nič navyše.',
+ story:['Kruh je náš najjednoduchší dizajn a možno práve preto najťažší. Biela polomatná glazúra a jeden kobaltový kruh, ktorý maľujeme štetcom na otáčajúcom sa tanieri. Ťah robíme na jednu otáčku, bez prerušenia a bez opravovania. Kde štetec dosadne, tam je kruh hrubší, kde sa zdvihne, rozpije sa do stratena. Každý tanier má tak svoj podpis.',
+  'Biela glazúra je polomatná, takže jedlo na nej nemá rušivé odlesky a farby zeleniny, omáčok či cestovín pôsobia sýtejšie. Preto majú biele taniere radi kuchári aj fotografi jedla.',
+  'Taniere majú priemer 27 cm a mierne zdvihnutý okraj, ktorý zachytí omáčku aj šťavu z mäsa. Sú dosť pevné na každodenné používanie a dajú sa stohovať. Sada obsahuje štyri kusy, akurát na rodinnú večeru.',
+  'Povieme to rovno: na polomatnej glazúre môžu kovové príbory časom zanechať sivé čiarky. Nejde o poškodenie, ale o kov z príboru, ktorý sa usadí na povrchu. Jemný čistiaci prášok na riad ho odstráni za pár sekúnd.'],
+ hi:[['Ø 27 cm','Plnohodnotný plytký tanier na hlavné jedlo.'],['Ručne maľovaný kruh','Jeden ťah štetcom na točiacom sa tanieri, každý kruh je iný.'],['Polomatná biela','Bez odleskov, jedlo na nej vyzerá sýtejšie.'],['Sada pre štyroch','Štyri taniere, každý zabalený zvlášť.']],
+ use:'Hlavné jedlá, cestoviny, rizoto, šaláty, nedeľný obed aj sviatočné stolovanie. Obľúbený svadobný darček.',
+ care:['Umývačka aj mikrovlnka sú v poriadku.','Sivé stopy od príborov odstráni jemný čistiaci prášok.','Nedávajte do rúry ani pod gril.','Pri sťahovaní vložte medzi taniere papierovú servítku.'],
+ box:'4 taniere, každý zabalený zvlášť v papieri, v krabici s kartónovými priečkami.',
+ maker:'Točí a kruhy maľuje Natália'},
+'espresso-maly-cierny':{
+ intro:'Dve šálky na espresso s hrubými stenami a matnou čiernou glazúrou. Pre ranný rituál, ktorý trvá tri dúšky, ale stojí za to.',
+ story:['Malý čierny je set pre ľudí, ktorí si espresso vychutnávajú v stoji pri okne alebo na balkóne s výhľadom na vinohrady. Navrhli sme ho s baristom z modranskej kaviarne, ktorý nám povedal jedinú vec: espresso musí ostať horúce až do posledného dúšku.',
+  'Šálky majú preto steny hrubé 6 mm a dobre držia teplo. Objem 80 ml je presne na jednoduché espresso alebo ristretto, so štedrou rezervou na cremu. Vnútro je glazované lesklou glazúrou, aby kávové usadeniny šli ľahko dole a crema na nej pekne vynikla.',
+  'Vonkajšia matná čierna glazúra sa na dotyk podobá kameňu. Pri dne ju necháme stiecť do tenkého okraja, pod ktorým vykukne teplá farba kameniny. Kontrast čiernej a hliny je dôvod, prečo tento set zákazníci kupujú do kaviarní aj ako darček pre milovníkov kávy.',
+  'Podšálky majú v strede plytkú jamku, do ktorej šálka zapadne a nekĺže, ani keď nesiete kávu z kuchyne na terasu. Na Black Friday je to náš najviac zľavnený produkt, −30 %.'],
+ hi:[['Steny 6 mm','Espresso ostane horúce až do posledného dúšku.'],['80 ml','Na espresso či ristretto, so štedrou rezervou na cremu.'],['Jamka v podšálke','Šálka nekĺže, ani keď kávu nesiete.'],['Matná čierna','Na dotyk ako kameň, vnútri lesklá a ľahko umývateľná.']],
+ use:'Espresso, ristretto, macchiato či cortado do 80 ml. Aj na malú porciu dezertu. Ideálny darček pre domácich baristov.',
+ care:['Umývačka aj mikrovlnka sú v poriadku.','Po použití šálky aspoň opláchnite, zaschnutá káva na matnom povrchu zanechá stopu.','Stopy odstráni sóda bikarbóna a mäkká hubka.','Pred espressom šálku predhrejte horúcou vodou.'],
+ box:'2 šálky a 2 podšálky, každý kus zabalený v papieri, v krabici s pečiatkou dielne.',
+ maker:'Točí a glazuje Natália'}
+};
+
+const SHIP = [
+  {id:'sps', name:'Kuriér SPS na adresu', sub:'1 – 2 pracovné dni od odoslania', price:4.49, days:[1,2]},
+  {id:'packeta', name:'Packeta – výdajné miesto', sub:'2 – 3 pracovné dni · viac ako 1 500 miest na Slovensku', price:2.99, days:[2,3], points:['Bratislava – Obchodná 12, potraviny Fresh','Bratislava – Aupark, Einsteinova 18','Modra – Štúrova 85, papiernictvo','Pezinok – Holubyho 42, trafika','Trnava – Hlavná 9, kníhkupectvo']},
+  {id:'zbox', name:'Packeta Z-BOX', sub:'2 – 3 pracovné dni · výdaj nonstop', price:2.79, days:[2,3], points:['Z-BOX Bratislava – Nivy, Mlynské nivy 5','Z-BOX Bratislava – Dlhé diely, Kudlákova 2','Z-BOX Modra – Dolná 120 (pri Lidli)','Z-BOX Pezinok – Šenkvická 14 (pri Kauflande)']},
+  {id:'osobne', name:'Osobný odber v dielni', sub:'Štúrova 47, Modra · pripravené do 24 h', price:0, days:[1,1]}
+];
+const PAY = [
+  {id:'karta', name:'Platobná karta', sub:'Okamžitá platba cez zabezpečenú bránu', fee:0, logos:['VISA','Mastercard','Maestro']},
+  {id:'wallet', name:'Apple Pay / Google Pay', sub:'Potvrdíte jedným dotykom v telefóne', fee:0, logos:['Apple Pay','Google Pay']},
+  {id:'prevod', name:'Bankový prevod', sub:'Tovar odošleme po pripísaní platby na účet', fee:0},
+  {id:'dobierka', name:'Dobierka', sub:'Platíte kuriérovi alebo na výdajnom mieste', fee:1.50}
+];
+const FREE_FROM = 60, COUPON = 'BLACK10', COUPON_RATE = .10;
+const BF_END = new Date('2026-11-30T23:59:59+01:00');
+
+/* ---------- storage ---------- */
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let cart = load('hl_cart',[]).filter(l=>byId[l.id]);
+let couponOn = load('hl_coupon',false);
+let extraReviews = load('hl_reviews',{});
+let lastOrder = null;
+let currentView = '';
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+const eur = n=>n.toFixed(2).replace('.',',')+' €';
+const esc = s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pct = p=>Math.round((1-p.sale/p.price)*100);
+const allRev = p=>[...(extraReviews[p.id]||[]),...p.reviews];
+const avg = p=>{const r=allRev(p);return r.reduce((a,b)=>a+b.r,0)/r.length};
+const fmt1 = n=>n.toFixed(1).replace('.',',');
+const dateSk = s=>{const d=new Date(s);return d.toLocaleDateString('sk-SK',{day:'numeric',month:'long',year:'numeric'})};
+const stars = v=>`<span class="stars" style="--v:${v}" aria-label="${fmt1(v)} z 5 hviezdičiek"><i></i></span>`;
+function revWord(n){return n===1?'recenzia':(n>=2&&n<=4?'recenzie':'recenzií')}
+
+/* ---------- product photos ---------- */
+const FILEV=['studio','scene','detail','pack'];
+const VIEWS=['Ateliér','Na stole','Detail glazúry','Balenie'];
+function shot(p,view,lazy=true){return `<img src="img/${p.type}-${FILEV[view]}.jpg" alt="${esc(p.name)}, ${VIEWS[view].toLowerCase()}" width="720" height="720"${lazy?' loading="lazy"':''} decoding="async">`}
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function glazeArea(x0,x1,yTop,yLine,R,drip){
+  let d=`M${x0},${yTop} L${x0},${yLine}`; const n=Math.max(4,Math.round((x1-x0)/24));
+  for(let i=1;i<=n;i++){const x=x0+(x1-x0)*i/n,xm=x0+(x1-x0)*(i-.5)/n;const dy=R()<.38?drip*(.5+R()*.9):R()*drip*.2;
+    d+=` Q${xm.toFixed(1)},${(yLine+dy*1.7).toFixed(1)} ${x.toFixed(1)},${(yLine+R()*4-2).toFixed(1)}`}
+  return d+` L${x1},${yTop} Z`;
+}
+
+/* ---------- cart ---------- */
+function persist(){save('hl_cart',cart);save('hl_coupon',couponOn);renderCartUI()}
+function addToCart(id,q=1){const l=cart.find(x=>x.id===id);if(l)l.qty=Math.min(20,l.qty+q);else cart.push({id,qty:q});persist();
+  const b=$('#cartBtn');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');toast(`Pridané do košíka: ${byId[id].name}${q>1?' ×'+q:''}`)}
+function setQty(id,q){const l=cart.find(x=>x.id===id);if(!l)return;l.qty=Math.max(1,Math.min(20,q));persist()}
+function removeLine(id){cart=cart.filter(x=>x.id!==id);persist()}
+function totals(shipId,payId){
+  const items=cart.reduce((a,l)=>a+byId[l.id].sale*l.qty,0);
+  const orig=cart.reduce((a,l)=>a+byId[l.id].price*l.qty,0);
+  const disc=couponOn?Math.round(items*COUPON_RATE*100)/100:0;
+  const goods=items-disc;
+  const s=SHIP.find(x=>x.id===shipId), py=PAY.find(x=>x.id===payId);
+  const ship=s?(goods>=FREE_FROM?0:s.price):0;
+  const fee=py?py.fee:0;
+  return {items,orig,disc,goods,ship,fee,total:goods+ship+fee,count:cart.reduce((a,l)=>a+l.qty,0)};
+}
+function renderCartUI(){
+  const t=totals();
+  $('#cartCount').textContent=t.count;
+  const body=$('#drawerBody'),foot=$('#drawerFoot');
+  if(!cart.length){body.innerHTML=`<div class="empty"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><p>Košík je zatiaľ prázdny.</p><a class="btn btn-primary" href="#kolekcia" data-act="close-cart">Prezrieť kolekciu</a></div>`;foot.innerHTML='';return}
+  const left=Math.max(0,FREE_FROM-t.goods);
+  body.innerHTML=`<div class="free">${left>0?`Do dopravy zdarma vám chýba <b class="num">${eur(left)}</b>.`:'<b>Máte dopravu zdarma.</b> Pri výbere doručenia neplatíte nič.'}<div class="bar"><i style="width:${Math.min(100,t.goods/FREE_FROM*100)}%"></i></div></div>`+
+   cart.map(l=>{const p=byId[l.id];return `<div class="line"><a class="thumb" href="#${p.id}" data-act="close-cart">${shot(p,0)}</a><div><h4>${p.name}</h4><small>${p.tagline}</small><div class="qty"><button data-act="dec" data-id="${p.id}" aria-label="Ubrať kus">−</button><span class="num" aria-label="Počet kusov">${l.qty}</span><button data-act="inc" data-id="${p.id}" aria-label="Pridať kus">+</button></div></div><div class="lp">${eur(p.sale*l.qty)}<br><button class="rm" data-act="remove" data-id="${p.id}">Odstrániť</button></div></div>`}).join('');
+  foot.innerHTML=`<div class="tot"><span class="muted">Ušetríte na Black Friday</span><span class="disc">−${eur(t.orig-t.items)}</span></div>
+  <div class="tot big"><span>Medzisúčet</span><span>${eur(t.items)}</span></div>
+  <small style="color:var(--muted)">Kód ${COUPON} a dopravu vyberiete v pokladni.</small>
+  <a class="btn btn-primary btn-block" href="#pokladna" data-act="close-cart">Pokračovať k pokladni</a>`;
+  if(currentView==='checkout')updateSummary();
+}
+function openCart(){$('#drawer').classList.add('open');$('#overlay').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');$('#toast').classList.remove('show')}
+function closeCart(){$('#drawer').classList.remove('open');$('#overlay').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true')}
+let toastT;function toast(t){$('#toastText').textContent=t;const el=$('#toast');el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),3200)}
+
+/* ---------- views ---------- */
+function card(p){
+  const r=allRev(p),a=avg(p);
+  return `<article class="card"><a class="card-img" href="#${p.id}" aria-label="${p.name}">${shot(p,0)}${shot(p,1).replace('<img ','<img class="alt" ')}<span class="badges"><span class="badge sale">−${pct(p)} %</span>${p.badges.map(b=>`<span class="badge soft">${b}</span>`).join('')}</span></a>
+  <div><h3><a href="#${p.id}">${p.name}</a></h3><p class="tag">${p.tagline}</p></div>
+  <div class="rating">${stars(a)}<span class="num">${fmt1(a)} · ${r.length} ${revWord(r.length)}</span></div>
+  <div class="card-row"><div class="price"><b>${eur(p.sale)}</b><s>${eur(p.price)}</s></div><button class="add-mini" data-act="add" data-id="${p.id}" aria-label="Pridať ${p.name} do košíka"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div></article>`;
+}
+function reviewHTML(r,p){
+  return `<div class="rv"><div class="rv-top"><div class="rv-who">${esc(r.n)}<small>${esc(r.city||'')}${r.city?' · ':''}${dateSk(r.d)}</small></div>${r.v?'<span class="verified">Overený nákup</span>':'<span class="unverified">Neoverený nákup</span>'}</div>${stars(r.r)}<p>${esc(r.t)}</p>${p?`<a class="prod-link" href="#${p.id}">${p.name}</a>`:''}${r.reply?`<div class="reply"><b>Odpoveď dielne Hlinka</b>${esc(r.reply)}</div>`:''}</div>`;
+}
+function renderHome(){
+  currentView='home';
+  const all=PRODUCTS.flatMap(p=>allRev(p).map(r=>({r,p})));
+  const av=all.reduce((a,x)=>a+x.r.r,0)/all.length;
+  const dist=[5,4,3,2,1].map(s=>all.filter(x=>x.r.r===s).length);
+  const picks=[['hrnek-ranna-rosa',0],['vaza-trstina',1],['espresso-maly-cierny',0]].map(([id,i])=>({p:byId[id],r:byId[id].reviews[i]}));
+  const R=rng(7);
+  $('#view').innerHTML=`
+  <section class="bf" id="black-friday" aria-label="Black Friday kampaň">
+    <svg class="bf-drip" viewBox="0 0 1200 84" preserveAspectRatio="none" aria-hidden="true"><path d="${glazeArea(0,1200,-10,18,R,26)}" fill="#3d63e0"/><path d="${glazeArea(0,1200,-10,4,rng(11),16)}" fill="#f0b440"/></svg>
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Black Friday v dielni · 2. – 30. novembra 2026</span>
+        <h1>Glazúra steká, <em>ceny tiež.</em></h1>
+        <p class="lead">Zľava <b>až 30 %</b> na celú kolekciu z Modry. S kódom <button class="code-chip" data-act="copy-code" aria-label="Skopírovať kód BLACK10">BLACK10</button> získate ďalších <b>10 %</b> z ceny tovaru, aj zo zľavnených kúskov.</p>
+        <div class="bf-actions"><a class="btn btn-primary" href="#kolekcia">Nakupovať v zľave</a><a class="btn btn-ghost" href="#espresso-maly-cierny">Espresso set −30 %</a></div>
+        <div class="countdown" id="countdown" aria-live="off"></div>
+      </div>
+      <div class="bf-art" aria-hidden="true">
+        <img src="img/hero.jpg" alt="" width="828" height="720">
+        <div class="bf-stamp"><div><b>−30 %</b><span>do konca<br>novembra</span></div></div>
+      </div>
+    </div>
+  </section>
+  <div class="trust"><div class="wrap">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg><span><b>Doprava zdarma</b><small>pri nákupe od 60 €</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Odosielame do 24 h</b><small>objednávky do 13:00 ešte v ten deň</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6"/><path d="M4 4v4.6h4.6"/></svg><span><b>30 dní na vrátenie</b><small>bez udania dôvodu</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 20h12M8 20c-1.5-3-2-6-2-9h12c0 3-.5 6-2 9"/><path d="M6 11c0-2 2.7-3 6-3s6 1 6 3"/></svg><span><b>Ručne v Modre</b><small>každý kus je originál</small></span></div>
+  </div></div>
+
+  <section class="block" id="kolekcia"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Kolekcia jeseň / zima 2026</span><h2>Všetko je teraz v zľave</h2></div><p>Šesť tvarov, ktoré točíme dookola, lebo sa osvedčili. Ceny platia do 30. novembra alebo do vypredania zásob.</p></div>
+    <div class="grid">${PRODUCTS.map(card).join('')}</div>
+  </div></section>
+
+  <section class="block" id="o-nas" style="padding-top:8px"><div class="wrap about">
+    <figure><img src="img/collection.jpg" alt="Celá kolekcia Hlinka na drevenom stole: čajník, hrnček, misky, taniere, espresso šálka a váza" width="1152" height="720" loading="lazy"><figcaption>Kolekcia jeseň / zima 2026</figcaption></figure>
+    <div class="about-txt"><span class="eyebrow">O dielni</span><h2>Malá dielňa v meste keramiky</h2>
+      <p>Hlinka vznikla v roku 2017 v bývalej garáži na Štúrovej ulici v Modre. Modra je mestom keramiky už stáročia a my na túto tradíciu nadväzujeme po svojom: bez vzorov a ornamentov, s dôrazom na tvar, glazúru a to, ako sa vec drží v ruke.</p>
+      <p>Natália točí na kruhu, sama mieša glazúry a balí každú objednávku. Nič neposielame do sveta skôr, než to sami nepoužívame aspoň mesiac doma.</p>
+      <div class="facts"><div><b class="num">6</b><small>tvarov v kolekcii</small></div><div><b class="num">1 240 °C</b><small>teplota druhého výpalu</small></div><div><b class="num">2 418</b><small>spokojných zákazníkov</small></div></div>
+      <div class="about-sign"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#hl-mark"/></svg><span><b>Natália</b><small>zakladateľka dielne Hlinka</small></span></div>
+    </div>
+  </div></section>
+
+  <section class="block process" id="dielna"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Ako vyrábame</span><h2>Od hliny po stôl za tri týždne</h2></div><p>Každý kus prejde rukami dvoch ľudí a dvakrát pecou. Preto sa navzájom trochu líšia.</p></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Točenie na kruhu</h3><p>Z kameninovej hliny vytočíme tvar a necháme ho dva dni zavädnúť do kožovej tvrdosti. Potom orežeme dno a nalepíme ucho.</p><span class="temp">2 – 4 dni</span></div>
+      <div class="step"><div class="n">2</div><h3>Prvý výpal</h3><p>Vysušený tvar vypálime naprázdno. Črep stvrdne, ale ostane pórovitý, aby dobre nasal glazúru.</p><span class="temp">900 °C · 9 hodín</span></div>
+      <div class="step"><div class="n">3</div><h3>Glazovanie</h3><p>Kusy ručne namáčame do glazúry, ktorú si miešame sami. Spodok ostáva holý, aby sa nelepil na policu pece.</p><span class="temp">ručne, kus po kuse</span></div>
+      <div class="step"><div class="n">4</div><h3>Druhý výpal</h3><p>Pri vysokej teplote sa glazúra roztopí a spojí s črepom. Až teraz vznikajú škvrnky, stekance a trhlinky.</p><span class="temp">1 240 °C · 12 hodín</span></div>
+    </div>
+  </div></section>
+
+  <section class="block" id="recenzie"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Recenzie zákazníkov</span><h2>Čo o nás hovoria</h2></div><p>Uverejňujeme všetky hodnotenia, aj tie kritické. Na každé odpovedáme do dvoch pracovných dní.</p></div>
+    <div class="rv-summary">
+      <div><div class="rv-big num">${fmt1(av)} <small>z 5</small></div>${stars(av)}<p style="color:var(--muted);margin-top:8px">${all.length} ${revWord(all.length)} · ${all.filter(x=>x.r.v).length} z overených nákupov</p>
+        <div class="dist">${[5,4,3,2,1].map((s,i)=>`<div class="dist-row"><span>${s} ★</span><div class="bar"><i style="width:${dist[i]/all.length*100}%"></i></div><span class="num">${dist[i]}</span></div>`).join('')}</div></div>
+      <div class="rv-cards">${picks.map(x=>reviewHTML(x.r,x.p)).join('')}</div>
+    </div>
+  </div></section>
+
+  <section class="block" id="faq" style="padding-top:24px"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Zákaznícka podpora</span><h2>Často kladené otázky</h2></div></div>
+    <div class="faq">
+      <div class="faq-help"><h3>Nenašli ste odpoveď?</h3><p>Opýtajte sa nášho asistenta v chate, alebo napíšte Natálii na <b>dielna@hlinka-modra.sk</b>. V pracovné dni odpovedáme do 4 hodín.</p><button class="btn btn-primary" data-act="open-chat">Otvoriť chat</button></div>
+      <div>${FAQ.map(([q,a],i)=>`<details${i===0?' open':''}><summary>${q}</summary><div class="ans">${a}</div></details>`).join('')}</div>
+    </div>
+  </div></section>`;
+  tick();
+}
+const FAQ=[
+ ['Kedy mi príde objednávka?','<p>Objednávky prijaté v pracovný deň do 13:00 odosielame ešte v ten deň, ostatné nasledujúci pracovný deň. Kuriér SPS doručuje do 1 – 2 pracovných dní, Packeta na výdajné miesto alebo do Z-BOXu do 2 – 3 pracovných dní.</p><p>Počas Black Friday môže odoslanie výnimočne trvať až 48 hodín.</p>'],
+ ['Koľko stojí doprava?','<p>Kuriér SPS na adresu 4,49 €, Packeta výdajné miesto 2,99 €, Packeta Z-BOX 2,79 €, osobný odber v dielni v Modre zdarma. Pri nákupe tovaru od 60 € je každá doprava zdarma.</p>'],
+ ['Ako môžem zaplatiť?','<p>Platobnou kartou (Visa, Mastercard, Maestro), cez Apple Pay alebo Google Pay, bankovým prevodom alebo na dobierku. Dobierka je spoplatnená sumou 1,50 € a pri osobnom odbere ju nie je možné zvoliť.</p>'],
+ ['Platí kód BLACK10 aj na zľavnené produkty?','<p>Áno. Kód BLACK10 odpočíta 10 % z ceny celého tovaru v košíku vrátane Black Friday cien. Platí do 30. 11. 2026 23:59, jedenkrát na objednávku, a nedá sa kombinovať s inými kódmi.</p>'],
+ ['Môžem tovar vrátiť?','<p>Áno, do 30 dní od prevzatia bez udania dôvodu. Zákon vyžaduje 14 dní, my lehotu predlžujeme. Stačí vyplniť formulár na odstúpenie (nájdete ho vo VOP) a tovar poslať späť nepoškodený. Peniaze vrátime do 14 dní od doručenia vráteného tovaru.</p>'],
+ ['Čo ak príde keramika rozbitá?','<p>Do 48 hodín od prevzatia odfoťte balík aj obsah a pošlite nám fotky e-mailom. Nový kus pošleme na naše náklady a rozbitý nemusíte posielať späť.</p>'],
+ ['Môžem keramiku dávať do umývačky a mikrovlnky?','<p>Hrnčeky, misky, taniere a espresso set áno. Čajník je vhodný do umývačky, ale nie do mikrovlnky (má veľký objem a ucho z hrubej vrstvy). Vázu umývajte ručne. Do rúry ani na sporák keramiku nedávajte.</p>'],
+ ['Prečo vyzerá môj kus trochu inak ako na fotke?','<p>Každý kus je točený a glazovaný ručne. Hrúbka glazúry, škvrnky a stekance vznikajú v peci a nedajú sa presne zopakovať. Rozmery a objem sa môžu líšiť o ±5 %.</p>'],
+ ['Zabalíte objednávku ako darček?','<p>Každú objednávku balíme do krabice s papierovou výplňou. Ak do poznámky v objednávke napíšete text, pridáme zadarmo ručne písanú kartičku a nevložíme doklad s cenou.</p>'],
+ ['Môžem prísť do dielne osobne?','<p>Áno. Sme na Štúrovej 47 v Modre, otvorené Po – Pi 10:00 – 17:00, počas Black Friday aj v sobotu 10:00 – 14:00. Pri osobnom odbere platíte kartou alebo vopred prevodom.</p>']
+];
+
+function renderProduct(id){
+  currentView='product';
+  const p=byId[id], r=allRev(p), a=avg(p), C=COPY[id];
+  const dist=[5,4,3,2,1].map(s=>r.filter(x=>x.r===s).length);
+  $('#view').innerHTML=`<div class="wrap">
+  <nav class="crumbs" aria-label="Navigácia"><a href="#domov">Domov</a> / <a href="#kolekcia">Kolekcia</a> / ${p.name}</nav>
+  <div class="pd">
+    <div class="gallery"><div class="gmain" id="gmain">${shot(p,0,false)}<span class="gcap" id="gcap">${VIEWS[0]}</span></div>
+      <div class="gthumbs" role="group" aria-label="Fotografie produktu">${VIEWS.map((v,i)=>`<button data-act="thumb" data-id="${p.id}" data-i="${i}" aria-current="${i===0}" aria-label="Fotka: ${v}">${shot(p,i)}</button>`).join('')}</div></div>
+    <div class="pinfo">
+      <div class="badges" style="position:static;flex-direction:row;flex-wrap:wrap"><span class="badge sale">Black Friday −${pct(p)} %</span>${p.badges.map(b=>`<span class="badge">${b}</span>`).join('')}</div>
+      <div><h1>${p.name}</h1><p class="tag" style="margin-top:8px">${p.tagline}</p></div>
+      <a class="rating" href="#recenzie-produktu" data-scroll="recenzie-produktu">${stars(a)}<span class="num">${fmt1(a)} z 5 · ${r.length} ${revWord(r.length)}</span></a>
+      <p class="intro">${C.intro}</p>
+      <span class="maker"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#hl-mark"/></svg>${C.maker} · ručne v Modre</span>
+      <div class="pprice"><b>${eur(p.sale)}</b><s>${eur(p.price)}</s><span class="save">ušetríte ${eur(p.price-p.sale)}</span></div>
+      <p class="bf-note">S kódom <b>BLACK10</b> v pokladni zaplatíte len <b>${eur(p.sale*.9)}</b> za kus.</p>
+      <span class="stock${p.low?' low':''}">${p.stock}</span>
+      <div class="buy"><div class="qty"><button data-act="pq" data-d="-1" aria-label="Ubrať">−</button><input id="pqty" type="number" min="1" max="20" value="1" aria-label="Počet kusov" inputmode="numeric"><button data-act="pq" data-d="1" aria-label="Pridať">+</button></div><button class="btn btn-primary" data-act="add" data-id="${p.id}" data-from="detail">Pridať do košíka</button></div>
+      <ul class="perks"><li>Doručenie ${deliveryWindow(SHIP[0])} kuriérom, alebo do Z-BOXu</li><li>Doprava zdarma pri nákupe od 60 €</li><li>30 dní na vrátenie bez udania dôvodu, záruka 24 mesiacov</li></ul>
+      <table class="params"><tbody>${p.params.map(([k,v])=>`<tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>
+    </div>
+  </div>
+  <section class="pdesc" style="border-bottom:0"><div><span class="eyebrow">Podrobný popis</span><h2 style="margin-top:6px">Príbeh tvaru</h2></div><div class="txt">${C.story.map(t=>`<p>${t}</p>`).join('')}</div></section>
+  <section><h2 style="font-size:30px;margin-bottom:18px">Čím vás poteší</h2><div class="hi">${C.hi.map(([t,d])=>`<div><b>${t}</b><p>${d}</p></div>`).join('')}</div></section>
+  <section class="info3"><div><h3>Na čo sa hodí</h3><p>${C.use}</p></div><div><h3>Starostlivosť</h3><ul>${C.care.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><h3>V balení</h3><p>${C.box}</p></div></section>
+  <section class="prv" id="recenzie-produktu">
+    <div><span class="eyebrow">Hodnotenia</span><h2 style="font-size:34px;margin-top:6px">${fmt1(a)} z 5</h2><div style="margin-top:8px">${stars(a)}</div>
+      <div class="dist">${[5,4,3,2,1].map((s,i)=>`<div class="dist-row"><span>${s} ★</span><div class="bar"><i style="width:${dist[i]/r.length*100}%"></i></div><span class="num">${dist[i]}</span></div>`).join('')}</div>
+      <form class="rv-form" id="rvForm" novalidate><h3>Napíšte recenziu</h3>
+        <fieldset style="border:0;padding:0;margin:0"><legend style="font-size:14px;font-weight:600;margin-bottom:4px">Hodnotenie</legend><div class="star-pick">${[5,4,3,2,1].map(s=>`<input type="radio" name="rv-rating" id="rv-star-${s}" value="${s}"${s===5?' checked':''}><label for="rv-star-${s}" title="${s} z 5">★</label>`).join('')}</div></fieldset>
+        <div class="field"><label for="rv-name">Meno</label><input id="rv-name" maxlength="40" placeholder="Napr. Jana M."><span class="msg">Vyplňte meno.</span></div>
+        <div class="field"><label for="rv-text">Vaša skúsenosť</label><textarea id="rv-text" rows="3" maxlength="600" placeholder="Ako sa vám produkt používa?"></textarea><span class="msg">Napíšte aspoň 10 znakov.</span></div>
+        <button class="btn btn-primary">Odoslať recenziu</button></form>
+    </div>
+    <div class="rv-list">${r.map(x=>reviewHTML(x)).join('')}</div>
+  </section>
+  <section class="block" style="padding-top:24px;border-top:1px solid var(--line)"><div class="sec-head"><h2>Hodí sa k tomu</h2></div><div class="grid">${PRODUCTS.filter(x=>x.id!==id).slice(0,3).map(card).join('')}</div></section>
+  </div>`;
+  $('#rvForm').addEventListener('submit',e=>{
+    e.preventDefault(); const n=$('#rv-name'),t=$('#rv-text'); let ok=true;
+    n.parentElement.classList.toggle('err',!n.value.trim()); if(!n.value.trim())ok=false;
+    t.parentElement.classList.toggle('err',t.value.trim().length<10); if(t.value.trim().length<10)ok=false;
+    if(!ok)return;
+    const rating=+document.querySelector('input[name="rv-rating"]:checked').value;
+    (extraReviews[id]=extraReviews[id]||[]).unshift({n:n.value.trim(),r:rating,d:new Date().toISOString().slice(0,10),v:false,t:t.value.trim()});
+    save('hl_reviews',extraReviews); renderProduct(id); document.getElementById('recenzie-produktu').scrollIntoView(); toast('Ďakujeme, recenzia je zverejnená.');
+  });
+}
+
+function addWorkdays(d,n){const x=new Date(d);while(n>0){x.setDate(x.getDate()+1);if(x.getDay()%6)n--}return x}
+function deliveryWindow(s){const now=new Date();const disp=now.getHours()<13&&now.getDay()%6?now:addWorkdays(now,1);const a=addWorkdays(disp,s.days[0]),b=addWorkdays(disp,s.days[1]);const f=d=>d.toLocaleDateString('sk-SK',{weekday:'short',day:'numeric',month:'numeric'});return s.days[0]===s.days[1]?f(a):`${f(a)} – ${f(b)}`}
+
+function renderCheckout(){
+  currentView='checkout';
+  if(!cart.length){$('#view').innerHTML=`<div class="wrap"><div class="done" style="text-align:center;justify-items:center"><h1>Košík je prázdny</h1><p style="color:var(--muted)">Pred dokončením objednávky si vyberte aspoň jeden produkt.</p><a class="btn btn-primary" href="#kolekcia">Prezrieť kolekciu</a></div></div>`;return}
+  const f=(id,label,type='text',ph='',auto='',msg='')=>`<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type}" placeholder="${ph}" autocomplete="${auto}"><span class="msg">${msg}</span></div>`;
+  $('#view').innerHTML=`<div class="wrap">
+  <nav class="crumbs"><a href="#domov">Obchod</a> / Pokladňa</nav>
+  <form class="co" id="coForm" novalidate>
+    <div>
+      <h1>Pokladňa</h1><p style="color:var(--muted)">Tri kroky a máte hotovo. Polia označené ako povinné potrebujeme na doručenie a faktúru.</p>
+      <div class="co-sec"><h2><span>1</span>Kontaktné údaje a adresa</h2>
+        ${f('co-name','Meno a priezvisko','text','Jana Nováková','name','Vyplňte meno a priezvisko.')}
+        <div class="row2">${f('co-email','E-mail','email','jana@priklad.sk','email','Zadajte platný e-mail.')}${f('co-phone','Telefón','tel','+421 900 000 000','tel','Zadajte telefónne číslo, aspoň 9 číslic.')}</div>
+        ${f('co-street','Ulica a číslo domu','text','Hlavná 12','street-address','Vyplňte ulicu a číslo.')}
+        <div class="row3">${f('co-city','Mesto','text','Bratislava','address-level2','Vyplňte mesto.')}${f('co-zip','PSČ','text','811 01','postal-code','PSČ má 5 číslic.')}</div>
+        <div class="field"><label for="co-country">Krajina</label><select id="co-country" autocomplete="country"><option>Slovensko</option><option>Česko</option></select></div>
+      </div>
+      <div class="co-sec"><h2><span>2</span>Doprava</h2>
+        <div class="opts" role="radiogroup" aria-label="Spôsob doručenia">${SHIP.map((s,i)=>`<label class="opt"><input type="radio" name="ship" id="ship-${s.id}" value="${s.id}"${i===0?' checked':''}><span><b>${s.name}</b><small>${s.sub} · doručenie ${deliveryWindow(s)}</small></span><span class="fee" data-shipfee="${s.id}"></span></label>`).join('')}</div>
+        <div class="field" id="pointWrap" hidden><label for="co-point">Vyberte výdajné miesto</label><select id="co-point"></select><span class="msg">Vyberte výdajné miesto.</span></div>
+      </div>
+      <div class="co-sec"><h2><span>3</span>Platba</h2>
+        <div class="opts" role="radiogroup" aria-label="Spôsob platby">${PAY.map((p,i)=>`<label class="opt"><input type="radio" name="pay" id="pay-${p.id}" value="${p.id}"${i===0?' checked':''}><span><b>${p.name}</b><small>${p.sub}</small>${p.logos?`<span class="paylogos">${p.logos.map(l=>`<span class="pl">${l}</span>`).join('')}</span>`:''}</span><span class="fee">${p.fee?'+'+eur(p.fee):'zdarma'}</span></label>`).join('')}</div>
+        <div class="field"><label for="co-note">Poznámka k objednávke (nepovinné)</label><textarea id="co-note" rows="2" placeholder="Napr. text na darčekovú kartičku"></textarea></div>
+        <label class="check" id="termsWrap"><input type="checkbox" id="co-terms"><span>Súhlasím so <a href="#vop">všeobecnými obchodnými podmienkami</a> a beriem na vedomie informácie o spracúvaní osobných údajov. Objednávka zaväzuje k platbe.</span></label>
+        <label class="check"><input type="checkbox" id="co-news"><span>Chcem raz mesačne dostávať novinky z dielne (nepovinné).</span></label>
+      </div>
+    </div>
+    <aside class="summary" id="summary"></aside>
+  </form></div>`;
+  const form=$('#coForm');
+  form.addEventListener('change',e=>{if(e.target.name==='ship'||e.target.name==='pay')updateSummary();if(e.target.matches('input,select'))e.target.closest('.field')?.classList.remove('err');if(e.target.id==='co-terms')$('#termsWrap').classList.remove('err')});
+  form.addEventListener('submit',e=>{e.preventDefault();submitOrder()});
+  updateSummary();
+}
+function updateSummary(){
+  const sh=document.querySelector('input[name="ship"]:checked')?.value, py=document.querySelector('input[name="pay"]:checked')?.value;
+  if(!sh)return;
+  // dobierka nie je pri osobnom odbere
+  const dob=$('#pay-dobierka'); dob.disabled=sh==='osobne'; if(dob.disabled&&dob.checked){$('#pay-karta').checked=true}
+  const payNow=document.querySelector('input[name="pay"]:checked').value;
+  const s=SHIP.find(x=>x.id===sh), pw=$('#pointWrap'), ps=$('#co-point');
+  if(s.points){pw.hidden=false; if(ps.dataset.for!==sh){ps.innerHTML='<option value="">Vyberte zo zoznamu…</option>'+s.points.map(x=>`<option>${x}</option>`).join('');ps.dataset.for=sh}}else pw.hidden=true;
+  const t=totals(sh,payNow);
+  document.querySelectorAll('[data-shipfee]').forEach(el=>{const x=SHIP.find(z=>z.id===el.dataset.shipfee);el.textContent=x.price===0?'zdarma':(t.goods>=FREE_FROM?'zdarma':eur(x.price))});
+  const el=$('#summary'); if(!el)return;
+  if(!cart.length){location.hash='pokladna';renderCheckout();return}
+  el.innerHTML=`<h2>Súhrn objednávky</h2>
+  <div class="sum-lines">${cart.map(l=>{const p=byId[l.id];return `<div class="sum-line"><div class="thumb">${shot(p,0)}<span class="q">${l.qty}</span></div><div>${p.name}<br><small style="color:var(--muted)">${eur(p.sale)} / ks</small></div><b class="num">${eur(p.sale*l.qty)}</b></div>`}).join('')}</div>
+  <div><label for="co-coupon" style="font-size:14px;font-weight:600">Zľavový kód</label><div class="coupon" style="margin-top:6px"><input id="co-coupon" placeholder="Napr. ${COUPON}" value="${couponOn?COUPON:''}"${couponOn?' disabled':''}>${couponOn?'<button type="button" class="btn btn-ghost" data-act="coupon-off">Zrušiť</button>':'<button type="button" class="btn btn-ghost" data-act="coupon">Použiť</button>'}</div><div class="coupon-msg ${couponOn?'ok':''}" id="couponMsg">${couponOn?`Kód ${COUPON} je uplatnený: −10 % z tovaru.`:''}</div></div>
+  <div style="display:grid;gap:8px">
+    <div class="tot"><span class="muted">Tovar (pôvodne ${eur(t.orig)})</span><span>${eur(t.items)}</span></div>
+    ${t.disc?`<div class="tot"><span class="muted">Kód ${COUPON}</span><span class="disc">−${eur(t.disc)}</span></div>`:''}
+    <div class="tot"><span class="muted">${s.name}</span><span>${t.ship?eur(t.ship):'zdarma'}</span></div>
+    ${t.fee?`<div class="tot"><span class="muted">Poplatok za dobierku</span><span>${eur(t.fee)}</span></div>`:''}
+    <div class="tot big" style="border-top:1px solid var(--line);padding-top:12px"><span>Spolu s DPH</span><span>${eur(t.total)}</span></div>
+    <small style="color:var(--muted)">Ušetríte ${eur(t.orig-t.items+t.disc+(s.price&&!t.ship?s.price:0))}. ${t.goods<FREE_FROM&&s.price?`Do dopravy zdarma chýba ${eur(FREE_FROM-t.goods)}.`:''}</small>
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">${payNow==='karta'||payNow==='wallet'?'Objednať a zaplatiť':'Objednať s povinnosťou platby'}</button>`;
+}
+function applyCoupon(){const v=($('#co-coupon').value||'').trim().toUpperCase();const m=$('#couponMsg');
+  if(v===COUPON){if(new Date()>BF_END){m.className='coupon-msg no';m.textContent='Platnosť kódu skončila 30. 11. 2026.';return}couponOn=true;persist();updateSummary()}
+  else{m.className='coupon-msg no';m.textContent=v?`Kód „${v}“ nepoznáme. Skontrolujte, či ste ho napísali správne.`:'Najprv napíšte kód.'}}
+
+function submitOrder(){
+  const val=id=>$('#'+id).value.trim(); let first=null;
+  const chk=(id,ok)=>{const fld=$('#'+id).closest('.field');fld.classList.toggle('err',!ok);if(!ok&&!first)first=$('#'+id)};
+  chk('co-name',val('co-name').split(/\s+/).length>=2);
+  chk('co-email',/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val('co-email')));
+  chk('co-phone',val('co-phone').replace(/\D/g,'').length>=9);
+  chk('co-street',/\d/.test(val('co-street'))&&val('co-street').length>3);
+  chk('co-city',val('co-city').length>1);
+  chk('co-zip',/^\d{3}\s?\d{2}$/.test(val('co-zip')));
+  const sh=document.querySelector('input[name="ship"]:checked').value, s=SHIP.find(x=>x.id===sh);
+  if(s.points)chk('co-point',!!val('co-point'));
+  const terms=$('#co-terms').checked; $('#termsWrap').classList.toggle('err',!terms); if(!terms&&!first)first=$('#co-terms');
+  if(first){first.focus();first.scrollIntoView({block:'center'});toast('Skontrolujte prosím zvýraznené polia.');return}
+  const pay=document.querySelector('input[name="pay"]:checked').value, t=totals(sh,pay);
+  const num='HL'+String(Math.floor(260000+Math.random()*39999));
+  lastOrder={num,name:val('co-name'),email:val('co-email'),phone:val('co-phone'),addr:`${val('co-street')}, ${val('co-zip')} ${val('co-city')}, ${$('#co-country').value}`,point:s.points?val('co-point'):'',ship:s,pay:PAY.find(x=>x.id===pay),t,lines:cart.map(l=>({...l})),note:val('co-note'),coupon:couponOn,when:deliveryWindow(s)};
+  if(pay==='karta'||pay==='wallet')showGateway(); else finish();
+}
+function showGateway(){
+  const o=lastOrder, m=$('#payModal'), c=$('#payCard'); m.hidden=false;
+  c.innerHTML=`<span class="eyebrow">${o.pay.id==='karta'?'Platobná brána':'Apple Pay / Google Pay'}</span><h2>Potvrdenie platby</h2><div class="amt">${eur(o.t.total)}</div><p>Obchodník Hlinka s. r. o., objednávka ${o.num}. V tomto ukážkovom obchode sa nezadávajú ani neodosielajú žiadne platobné údaje.</p><button class="btn btn-primary btn-block" id="payGo">${o.pay.id==='karta'?'Zaplatiť kartou':'Potvrdiť v telefóne'}</button><button class="btn btn-ghost btn-block" id="payCancel">Späť do pokladne</button>`;
+  $('#payGo').focus();
+  $('#payCancel').onclick=()=>{m.hidden=true};
+  $('#payGo').onclick=()=>{c.innerHTML=`<div class="spin"></div><h2>Overujeme platbu…</h2><p>Nezatvárajte okno.</p>`;setTimeout(()=>{m.hidden=true;finish()},1600)};
+}
+function finish(){currentView='done';cart=[];couponOn=false;persist();location.hash='objednavka'}
+function renderConfirm(){
+  currentView='done'; const o=lastOrder;
+  let payInfo='';
+  if(o.pay.id==='prevod')payInfo=`<div class="box"><h2>Údaje na platbu prevodom</h2><dl class="kv"><dt>IBAN</dt><dd>SK31 1100 0000 0029 4512 3456</dd><dt>Suma</dt><dd>${eur(o.t.total)}</dd><dt>Variabilný symbol</dt><dd>${o.num.replace('HL','')}</dd><dt>Splatnosť</dt><dd>${addWorkdays(new Date(),5).toLocaleDateString('sk-SK')}</dd></dl><p style="color:var(--muted);font-size:14px">Tovar odošleme v deň pripísania platby. Nezaplatenú objednávku po 5 pracovných dňoch zrušíme.</p></div>`;
+  else if(o.pay.id==='dobierka')payInfo=`<div class="box"><h2>Platba na dobierku</h2><p>Pri prevzatí zaplatíte <b>${eur(o.t.total)}</b> v hotovosti alebo kartou.</p></div>`;
+  else payInfo=`<div class="box"><h2>Platba prijatá</h2><p>${o.pay.name}: <b>${eur(o.t.total)}</b> bolo úspešne zaplatené.</p></div>`;
+  $('#view').innerHTML=`<div class="wrap"><div class="done">
+    <div class="done-head"><div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span class="eyebrow">Objednávka ${o.num}</span><h1>Ďakujeme, ${esc(o.name.split(' ')[0])}. Pustíme sa do balenia.</h1><p style="color:var(--muted)">Potvrdenie sme poslali na ${esc(o.email)}. V ukážkovom obchode sa e-mail v skutočnosti neodosiela.</p></div>
+    ${payInfo}
+    <div class="box"><h2>Doručenie</h2><dl class="kv"><dt>Spôsob</dt><dd>${o.ship.name}</dd>${o.point?`<dt>Výdajné miesto</dt><dd>${esc(o.point)}</dd>`:''}<dt>Adresa</dt><dd>${esc(o.addr)}</dd><dt>Predpoklad</dt><dd>${o.when}</dd><dt>Telefón</dt><dd>${esc(o.phone)}</dd>${o.note?`<dt>Poznámka</dt><dd>${esc(o.note)}</dd>`:''}</dl></div>
+    <div class="box"><h2>Objednaný tovar</h2>${o.lines.map(l=>{const p=byId[l.id];return `<div class="tot"><span>${l.qty} × ${p.name}</span><span>${eur(p.sale*l.qty)}</span></div>`}).join('')}
+      ${o.t.disc?`<div class="tot"><span class="muted">Kód ${COUPON}</span><span class="disc">−${eur(o.t.disc)}</span></div>`:''}<div class="tot"><span class="muted">Doprava</span><span>${o.t.ship?eur(o.t.ship):'zdarma'}</span></div>${o.t.fee?`<div class="tot"><span class="muted">Dobierka</span><span>${eur(o.t.fee)}</span></div>`:''}
+      <div class="tot big" style="border-top:1px solid var(--line);padding-top:10px;margin-top:4px"><span>Spolu s DPH</span><span>${eur(o.t.total)}</span></div></div>
+    <p style="color:var(--muted);font-size:14px">Tovar môžete vrátiť do 30 dní bez udania dôvodu. Podrobnosti nájdete vo <a href="#vop">všeobecných obchodných podmienkach</a>.</p>
+    <div><a class="btn btn-primary" href="#kolekcia">Späť do obchodu</a></div>
+  </div></div>`;
+}
+
+function renderVOP(){
+  currentView='vop';
+  const S=[
+  ['vop-uvod','1. Úvodné ustanovenia',`<ol><li>Tieto všeobecné obchodné podmienky (ďalej „VOP“) upravujú práva a povinnosti medzi predávajúcim a kupujúcim pri predaji tovaru prostredníctvom internetového obchodu Hlinka.</li><li>Predávajúcim je spoločnosť <b>Hlinka s. r. o.</b>, so sídlom Štúrova 47, 900 01 Modra, IČO: 53 812 406, DIČ: 2121487365, IČ DPH: SK2121487365, zapísaná v Obchodnom registri Mestského súdu Bratislava III, oddiel Sro, vložka č. 156782/B. Kontakt: dielna@hlinka-modra.sk, +421 905 123 456.</li><li>Kupujúcim je spotrebiteľ alebo podnikateľ, ktorý odoslal objednávku. Vzťahy so spotrebiteľom sa riadia najmä zákonom č. 108/2024 Z. z. o ochrane spotrebiteľa a zákonom č. 40/1964 Zb. Občiansky zákonník.</li><li>Dozorným orgánom je Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, 827 99 Bratislava.</li></ol>`],
+  ['vop-objednavka','2. Objednávka a uzavretie zmluvy',`<ol><li>Návrhom na uzavretie kúpnej zmluvy je odoslanie objednávky kliknutím na tlačidlo „Objednať a zaplatiť“ alebo „Objednať s povinnosťou platby“.</li><li>Kúpna zmluva je uzavretá doručením potvrdenia objednávky na e-mail kupujúceho.</li><li>Predávajúci si vyhradzuje právo objednávku zrušiť, ak tovar nie je možné vyrobiť alebo dodať, alebo ak bola zjavne uvedená chybná cena. O zrušení kupujúceho bezodkladne informuje a vráti prijaté platby do 14 dní.</li></ol>`],
+  ['vop-ceny','3. Ceny a platobné podmienky',`<ol><li>Všetky ceny sú uvedené v eurách vrátane DPH. Pri zľavnených produktoch je uvedená aj najnižšia cena za posledných 30 dní pred zľavou.</li><li>Kupujúci môže zaplatiť platobnou kartou, cez Apple Pay alebo Google Pay, bankovým prevodom alebo na dobierku (poplatok 1,50 €). Pri prevode je splatnosť 5 pracovných dní.</li><li>Zľavový kód BLACK10 platí od 2. 11. 2026 do 30. 11. 2026 23:59, znižuje cenu tovaru o 10 %, uplatňuje sa raz na objednávku a nedá sa kombinovať s inými kódmi.</li><li>Faktúru dostane kupujúci elektronicky e-mailom po odoslaní tovaru.</li></ol>`],
+  ['vop-dodanie','4. Dodacie podmienky',`<ol><li>Tovar odosielame do 24 hodín v pracovné dni, počas Black Friday do 48 hodín. Pri platbe prevodom až po pripísaní platby.</li><li>Spôsoby doručenia: kuriér SPS (4,49 €), Packeta výdajné miesto (2,99 €), Packeta Z-BOX (2,79 €), osobný odber v dielni v Modre (zdarma). Pri nákupe tovaru od 60 € je doprava zdarma.</li><li>Kupujúci je povinný pri prevzatí skontrolovať neporušenosť zásielky. Poškodenie oznámi predávajúcemu do 48 hodín s fotografiami, predávajúci zašle náhradný kus na vlastné náklady.</li><li>Nebezpečenstvo škody na tovare prechádza na kupujúceho prevzatím tovaru.</li></ol>`],
+  ['vop-odstupenie','5. Odstúpenie od zmluvy',`<ol><li>Spotrebiteľ má právo odstúpiť od zmluvy bez udania dôvodu do 14 dní od prevzatia tovaru. Predávajúci túto lehotu dobrovoľne predlžuje na <b>30 dní</b>.</li><li>Odstúpenie oznámi kupujúci e-mailom na dielna@hlinka-modra.sk alebo listom na adresu sídla. Môže použiť vzorový formulár, nie je to však povinné. Stačí uviesť číslo objednávky, meno a číslo účtu na vrátenie platby.</li><li>Tovar je potrebné zaslať späť do 14 dní od odstúpenia, nepoškodený a v pôvodnom balení, ak je to možné. Náklady na vrátenie tovaru znáša kupujúci.</li><li>Predávajúci vráti kúpnu cenu vrátane pôvodného poštovného (v hodnote najlacnejšieho ponúkaného spôsobu) do 14 dní od doručenia odstúpenia, nie však skôr, než mu bude tovar doručený.</li></ol>`],
+  ['vop-reklamacie','6. Zodpovednosť za vady a reklamácie',`<ol><li>Na tovar poskytujeme záruku 24 mesiacov od prevzatia.</li><li>Za vadu sa nepovažujú prejavy ručnej výroby: rozdiely vo farbe a rozložení glazúry, škvrnky, stekance, jemná sieť trhliniek (craquelure) pri celadonovej glazúre a odchýlky rozmerov do ±5 %.</li><li>Reklamáciu uplatní kupujúci e-mailom s popisom vady a fotografiami, alebo osobne v dielni. Predávajúci reklamáciu vybaví bez zbytočného odkladu, najneskôr do 30 dní od jej uplatnenia.</li><li>Ak ide o odstrániteľnú vadu, kupujúci má právo na výmenu tovaru. Ak výmena nie je možná, má právo na primeranú zľavu alebo vrátenie kúpnej ceny.</li><li>Záruka sa nevzťahuje na poškodenia spôsobené pádom, tepelným šokom (napr. rúra, sporák) alebo používaním v rozpore s pokynmi uvedenými pri produkte.</li></ol>`],
+  ['vop-ars','7. Alternatívne riešenie sporov',`<ol><li>Ak kupujúci nie je spokojný so spôsobom vybavenia reklamácie, môže sa obrátiť na predávajúceho so žiadosťou o nápravu.</li><li>Ak predávajúci odpovie zamietavo alebo neodpovie do 30 dní, spotrebiteľ môže podať návrh na začatie alternatívneho riešenia sporu subjektu ARS, napríklad Slovenskej obchodnej inšpekcii, alebo využiť európsku platformu RSO.</li></ol>`],
+  ['vop-osobne-udaje','8. Ochrana osobných údajov',`<ol><li>Osobné údaje kupujúceho (meno, adresa, e-mail, telefón) spracúvame na plnenie zmluvy podľa nariadenia (EÚ) 2016/679 (GDPR) a zákona č. 18/2018 Z. z.</li><li>Údaje poskytujeme len dopravcovi a platobnej bráne v rozsahu nevyhnutnom na doručenie a platbu. Faktúry uchovávame 10 rokov podľa zákona o účtovníctve.</li><li>E-mail na zasielanie noviniek používame iba so súhlasom kupujúceho, ktorý môže kedykoľvek odvolať odkazom v e-maile.</li><li>Kupujúci má právo na prístup, opravu, vymazanie a prenos údajov, ako aj právo podať sťažnosť Úradu na ochranu osobných údajov SR.</li></ol>`],
+  ['vop-zaver','9. Záverečné ustanovenia',`<ol><li>Tieto VOP sú platné a účinné od 1. 11. 2026.</li><li>Predávajúci môže VOP meniť. Na objednávku sa vzťahuje znenie platné v čase jej odoslania.</li><li>Hlinka s. r. o. je fiktívny subjekt a tento text slúži ako vzor pre študijný projekt. Nejde o právne poradenstvo.</li></ol>`]];
+  $('#view').innerHTML=`<div class="wrap"><nav class="crumbs"><a href="#domov">Obchod</a> / Obchodné podmienky</nav><div class="vop"><nav aria-label="Obsah VOP">${S.map(s=>`<a href="#vop" data-vop="${s[0]}">${s[1]}</a>`).join('')}</nav><article><h1>Všeobecné obchodné podmienky</h1><p class="meta">Platné od 1. novembra 2026 · Hlinka s. r. o.</p>${S.map(s=>`<h2 id="${s[0]}">${s[1]}</h2>${s[2]}`).join('')}<p style="margin-top:24px"><a class="btn btn-ghost" href="#kolekcia">Späť do obchodu</a></p></article></div></div>`;
+}
+
+/* ---------- countdown ---------- */
+function tick(){const el=$('#countdown');if(!el)return;let ms=BF_END-new Date();
+  if(ms<=0){el.innerHTML='<span class="cd-label">Black Friday akcia skončila. Ďakujeme!</span>';return}
+  const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60,p=n=>String(n).padStart(2,'0');
+  el.innerHTML=`<span class="cd-label">Akcia končí 30. 11. o 23:59</span><div class="cd-cell"><b>${d}</b><span>dní</span></div><div class="cd-cell"><b>${p(h)}</b><span>hod</span></div><div class="cd-cell"><b>${p(m)}</b><span>min</span></div><div class="cd-cell"><b>${p(s)}</b><span>sek</span></div>`}
+setInterval(tick,1000);
+
+/* ---------- routing ---------- */
+const SECTIONS=['kolekcia','o-nas','dielna','recenzie','faq','black-friday'];
+function route(){
+  const h=decodeURIComponent(location.hash.slice(1));
+  closeCart();
+  if(byId[h]){renderProduct(h);window.scrollTo(0,0)}
+  else if(h==='pokladna'){renderCheckout();window.scrollTo(0,0)}
+  else if(h==='vop'){if(currentView!=='vop'){renderVOP();window.scrollTo(0,0)}}
+  else if(h==='objednavka'){if(lastOrder){renderConfirm();window.scrollTo(0,0)}else{location.hash='domov'}}
+  else if(h==='kontakt'){if(!currentView)renderHome();$('#kontakt').scrollIntoView()}
+  else{
+    if(currentView!=='home')renderHome();
+    if(SECTIONS.includes(h)){requestAnimationFrame(()=>{const t=document.getElementById(h);const y=t.getBoundingClientRect().top+window.scrollY-(h==='black-friday'?200:$('header.site').offsetHeight+8);window.scrollTo(0,Math.max(0,y))})}
+    else window.scrollTo(0,0);
+  }
+}
+window.addEventListener('hashchange',route);
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const vopLink=e.target.closest('[data-vop]');
+  if(vopLink){e.preventDefault();if(currentView!=='vop'){history.pushState(null,'','#vop');renderVOP()}requestAnimationFrame(()=>document.getElementById(vopLink.dataset.vop).scrollIntoView());return}
+  const sc=e.target.closest('[data-scroll]'); if(sc){e.preventDefault();document.getElementById(sc.dataset.scroll).scrollIntoView();return}
+  const a=e.target.closest('[data-act]'); if(!a)return;
+  const act=a.dataset.act, id=a.dataset.id;
+  if(act==='add'){e.preventDefault();const q=a.dataset.from==='detail'?Math.max(1,Math.min(20,parseInt($('#pqty').value)||1)):1;addToCart(id,q)}
+  else if(act==='open-cart'){openCart()}
+  else if(act==='close-cart'){closeCart()}
+  else if(act==='inc'){setQty(id,cart.find(x=>x.id===id).qty+1)}
+  else if(act==='dec'){setQty(id,cart.find(x=>x.id===id).qty-1)}
+  else if(act==='remove'){removeLine(id)}
+  else if(act==='pq'){const i=$('#pqty');i.value=Math.max(1,Math.min(20,(parseInt(i.value)||1)+ +a.dataset.d))}
+  else if(act==='thumb'){const p=byId[id],i=+a.dataset.i;$('#gmain').innerHTML=shot(p,i,false)+`<span class="gcap">${VIEWS[i]}</span>`;document.querySelectorAll('.gthumbs button').forEach(b=>b.setAttribute('aria-current',b===a))}
+  else if(act==='coupon'){applyCoupon()}
+  else if(act==='coupon-off'){couponOn=false;persist();updateSummary()}
+  else if(act==='copy-code'){const done=()=>toast(`Kód ${COUPON} je skopírovaný. Vložíte ho v pokladni.`);try{navigator.clipboard.writeText(COUPON).then(done,()=>toast(`Váš kód: ${COUPON}. Zadajte ho v pokladni.`))}catch(err){toast(`Váš kód: ${COUPON}. Zadajte ho v pokladni.`)}}
+  else if(act==='toggle-chat'){toggleChat()}
+  else if(act==='open-chat'){toggleChat(true)}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCart();if(!$('#chat').hidden)toggleChat(false)}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='co-coupon'){e.preventDefault();applyCoupon()}});
+
+/* ---------- chatbot ---------- */
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const BOT=[
+ {k:['ahoj','dobry den','zdravim','cau','dobry vecer'],a:'Dobrý deň! Som virtuálny asistent dielne Hlinka. Pomôžem s dopravou, platbou, zľavami, vrátením tovaru aj starostlivosťou o keramiku. Na čo sa chcete opýtať?'},
+ {k:['black','friday','zlav','kod','kupon','akci','black10'],a:`Počas Black Friday (do 30. 11. 2026) je celá kolekcia zľavnená o 24 až 30 %. S kódom <b>${COUPON}</b> v pokladni ušetríte ďalších 10 % z ceny tovaru, aj zo zľavnených kúskov. Najväčšia zľava je na <a href="#espresso-maly-cierny">espresso set Malý čierny</a>.`},
+ {k:['doprav','doruc','kurier','packet','z-box','zbox','box','postovn','sps','kedy pride','dodan'],a:'Možnosti doručenia:<br>• Kuriér SPS na adresu: 4,49 €, 1 – 2 pracovné dni<br>• Packeta výdajné miesto: 2,99 €<br>• Packeta Z-BOX: 2,79 €, výdaj nonstop<br>• Osobný odber v Modre: zdarma<br>Pri nákupe od 60 € je každá doprava zdarma. Odosielame do 24 hodín.'},
+ {k:['plat','kart','apple','google','dobierk','prevod','iban','visa','mastercard'],a:'Zaplatiť môžete kartou (Visa, Mastercard, Maestro), cez Apple Pay alebo Google Pay, bankovým prevodom alebo na dobierku (+1,50 €). Dobierka nie je dostupná pri osobnom odbere.'},
+ {k:['vrat','odstup','nechcem','nepaci','vymen'],a:'Tovar môžete vrátiť do <b>30 dní</b> bez udania dôvodu. Napíšte nám číslo objednávky na dielna@hlinka-modra.sk a pošlite tovar späť. Peniaze vrátime do 14 dní. Podrobnosti sú vo <a href="#vop">VOP, článok 5</a>.'},
+ {k:['rozbit','prask','poskoden','reklam','vada','odstiep'],a:'To nás mrzí. Do 48 hodín od prevzatia nám pošlite fotky balíka a poškodeného kusu na dielna@hlinka-modra.sk. Nový pošleme na naše náklady a rozbitý nemusíte vracať. Záruka na ostatné vady je 24 mesiacov.'},
+ {k:['umyvack','mikrovln','rur','sporak','umyva','starostliv','cist'],a:'Hrnčeky, misky, taniere a espresso set zvládnu umývačku aj mikrovlnku. Čajník do umývačky áno, do mikrovlnky nie. Vázu umývajte ručne. Do rúry ani na sporák keramiku nedávajte. Sivé čiarky od príborov na tanieroch odstráni jemný čistiaci prášok.'},
+ {k:['darc','balen','kartick','zabal'],a:'Každú objednávku balíme do krabice s papierovou výplňou. Text na ručne písanú kartičku napíšte do poznámky v pokladni. Pridáme ju zadarmo a doklad s cenou do balíka nevložíme.'},
+ {k:['objednavk','stav','kde je','sledov','cislo'],a:'Stav objednávky nájdete v potvrdzovacom e-maile, kde je aj odkaz na sledovanie zásielky. Ak potrebujete niečo zmeniť, napíšte číslo objednávky (začína sa HL) na dielna@hlinka-modra.sk.'},
+ {k:['dieln','osobn','modra','navstev','otvar','adres','kde ste'],a:'Dielňa je na Štúrovej 47 v Modre. Otvorené Po – Pi 10:00 – 17:00, počas Black Friday aj v sobotu 10:00 – 14:00. Osobný odber je zdarma.'},
+ {k:['kontakt','telefon','email','mail','clovek','operator','zavolat'],a:'S človekom sa spojíte na e-maile <b>dielna@hlinka-modra.sk</b> alebo na telefóne <b>+421 905 123 456</b> (Po – Pi 9:00 – 17:00). Odpovedá Natália, zakladateľka dielne, ktorá sama balí všetky objednávky.'},
+ {k:['hrnc','hrnek','caj','misk','vaz','tanier','espresso','salk','produkt','odporuc'],a:'Najobľúbenejší je <a href="#hrnek-ranna-rosa">hrnček Ranná rosa</a>. Na čaj odporúčame <a href="#cajnik-lipa">čajník Lipa</a>, ktorý nekvapká, a na darček sadu <a href="#taniere-kruh">tanierov Kruh</a>. Celú ponuku nájdete v <a href="#kolekcia">kolekcii</a>.'},
+ {k:['dakuj','vdaka','super','ok'],a:'Rado sa stalo. Ak budete mať ďalšiu otázku, som tu.'}
+];
+const CHIPS=[['Black Friday kód','Ako funguje kód BLACK10?'],['Doprava','Koľko stojí doprava?'],['Platba','Ako môžem zaplatiť?'],['Vrátenie','Chcem vrátiť tovar'],['Rozbitý tovar','Prišiel mi rozbitý hrnček'],['Kontakt','Chcem hovoriť s človekom']];
+let chatStarted=false;
+function botReply(q){const n=norm(q);const hit=BOT.find(b=>b.k.some(k=>n.includes(k)));return hit?hit.a:'Tomuto celkom nerozumiem. Skúste sa opýtať inak, napríklad na dopravu, platbu alebo vrátenie tovaru. Alebo napíšte Natálii na <b>dielna@hlinka-modra.sk</b>, odpovie do 4 hodín.'}
+function addMsg(html,who){const el=document.createElement('div');el.className='msg '+who;el.innerHTML=html;$('#chatLog').appendChild(el);$('#chatLog').scrollTop=1e6}
+function ask(q){addMsg(esc(q),'me');const ty=document.createElement('div');ty.className='msg bot typing';ty.innerHTML='<i></i><i></i><i></i>';$('#chatLog').appendChild(ty);$('#chatLog').scrollTop=1e6;setTimeout(()=>{ty.remove();addMsg(botReply(q),'bot')},700+Math.random()*500)}
+function toggleChat(force){const c=$('#chat');const open=force!==undefined?force:c.hidden;c.hidden=!open;$('#chatFab').setAttribute('aria-expanded',open);
+  if(open&&!chatStarted){chatStarted=true;addMsg('Dobrý deň! Som asistent dielne Hlinka. Vyberte tému nižšie alebo napíšte otázku.','bot');$('#chatChips').innerHTML=CHIPS.map(([l,q])=>`<button type="button" data-q="${q}">${l}</button>`).join('')}
+  if(open)setTimeout(()=>$('#chatInput').focus(),50)}
+$('#chatChips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)ask(b.dataset.q)});
+$('#chatForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#chatInput').value.trim();if(!v)return;$('#chatInput').value='';ask(v)});
+$('#chatLog').addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(a&&window.innerWidth<700)toggleChat(false)});
+
+/* ---------- init ---------- */
+renderCartUI();
+route();
+</script>
+
+</body>
+</html>

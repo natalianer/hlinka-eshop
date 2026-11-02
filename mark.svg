@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" style="color:#2443a8"><rect x="4" y="4" width="112" height="112" rx="26" fill="#ffffff"/><g><defs><clipPath id="vc"><path d="M31,31 H89 C91.2,31 92.6,32.8 92.3,35 L87.6,86 C86.9,93.4 81.4,98 74.6,98 H45.4 C38.6,98 33.1,93.4 32.4,86 L27.7,35 C27.4,32.8 28.8,31 31,31 Z"/></clipPath></defs>
+<path d="M31,31 H89 C91.2,31 92.6,32.8 92.3,35 L87.6,86 C86.9,93.4 81.4,98 74.6,98 H45.4 C38.6,98 33.1,93.4 32.4,86 L27.7,35 C27.4,32.8 28.8,31 31,31 Z" fill="none" stroke="currentColor" stroke-width="3.6"/>
+<path d="M20,20 H100 V62 C96,62 95,64 93.5,66 C92,68 90,66 88,64 C86,62 84,62 82,64 C80.5,66 80,79 77,79.5 C74,80 73.5,67 71,64 C69,61.5 66,62 63,64 C60,66 58,66 55,63.5 C52,61 49,62 47.5,65 C46,68 46,73 43.5,73.5 C41,74 40.5,66 38,63.5 C36,61 33,62 31,64 C29,66 27,64 20,63 Z" fill="currentColor" clip-path="url(#vc)"/>
+<path d="M33,38.5 H87" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M18,108 H102" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M40,108 Q60,102 80,108" fill="none" stroke="currentColor" stroke-width="2" opacity="0"/>
+</g></svg>
